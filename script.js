@@ -100,32 +100,24 @@ form.addEventListener("submit", async event => {
   const fieldsValid = fields.map(showFieldState).every(Boolean);
   const consent = form.elements.consent;
   const submitButton = form.querySelector('button[type="submit"]');
-
   if (!fieldsValid || !consent.checked) {
     feedback.className = "form-feedback error";
-    feedback.textContent = consent.checked
-      ? "Please correct the highlighted fields."
-      : "Please agree that your information may be used to respond to your enquiry.";
-    const firstInvalid = form.querySelector(":invalid");
-    firstInvalid?.focus();
+    feedback.textContent = consent.checked ? "Please correct the highlighted fields." : "Please agree that your information may be used to respond to your enquiry.";
+    form.querySelector(":invalid")?.focus();
     return;
   }
-
   submitButton.disabled = true;
   submitButton.setAttribute("aria-busy", "true");
   submitButton.innerHTML = 'Sending… <span aria-hidden="true">→</span>';
   feedback.className = "form-feedback";
   feedback.textContent = "";
-
   try {
     const response = await fetch("/", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: new URLSearchParams(new FormData(form)).toString()
     });
-
     if (!response.ok) throw new Error("Submission failed");
-
     feedback.className = "form-feedback success";
     feedback.textContent = "Thank you for your enquiry. Your message has been submitted to Nexora Solutions. We’ll get back to you using the email address you provided.";
     form.reset();

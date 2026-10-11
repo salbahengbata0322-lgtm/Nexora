@@ -157,15 +157,17 @@
 
     <section class="contact section-dark" id="contact">
       <div class="container contact-grid">
-        <div class="contact-copy reveal"><p class="eyebrow">Get in touch</p><h2>Let’s Talk About<br>Your Project</h2><p>Tell us what you need. This demonstration form validates your entry locally but does not send or store any information.</p><div class="direct-contact"><small>Direct email</small><a href="mailto:Arllan_Guzman03@yahoo.com">Arllan_Guzman03@yahoo.com</a></div></div>
-        <form class="contact-form reveal" id="project-form" novalidate>
+        <div class="contact-copy reveal"><p class="eyebrow">Get in touch</p><h2>Let’s Talk About<br>Your Project</h2><p>Tell us what you need and Nexora Solutions will respond using the contact details you provide.</p><div class="direct-contact"><small>Direct email</small><a href="mailto:Arllan_Guzman03@yahoo.com">Arllan_Guzman03@yahoo.com</a></div></div>
+        <form class="contact-form reveal" id="project-form" name="project-enquiry" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+          <input type="hidden" name="form-name" value="project-enquiry">
+          <input type="hidden" name="subject" value="Nexora Solutions | New Project Enquiry | Ref: %{submissionId}">
+          <p class="sr-only"><label>Do not fill this out if you are human: <input name="bot-field"></label></p>
           <div class="form-row"><label>Your Name <span>*</span><input name="name" type="text" autocomplete="name" required minlength="2" placeholder="e.g. Juan Dela Cruz"><small class="field-error"></small></label><label>Your Email <span>*</span><input name="email" type="email" autocomplete="email" required placeholder="you@example.com"><small class="field-error"></small></label></div>
           <label>Project Type <span>*</span><select name="projectType" required><option value="">Select an option</option><option>Office IT Support</option><option>Business Tracker</option><option>Workflow Automation</option><option>Microsoft 365 Improvement</option><option>Report or Dashboard</option><option>Lightweight Application</option><option>Other</option></select><small class="field-error"></small></label>
           <label>Tell us more <span>*</span><textarea name="message" rows="5" maxlength="500" minlength="20" required placeholder="What are you looking to achieve?"></textarea><span class="counter"><b id="message-count">0</b>/500</span><small class="field-error"></small></label>
-          <label class="consent"><input name="consent" type="checkbox" required><span>I understand this demo form does not submit or store my information.</span></label>
-          <button class="button" type="submit">Review Enquiry <span aria-hidden="true">→</span></button>
+          <label class="consent"><input name="consent" type="checkbox" required><span>I agree that my information may be used to respond to this enquiry.</span></label>
+          <button class="button" type="submit">Send Enquiry <span aria-hidden="true">→</span></button>
           <div class="form-feedback" id="form-feedback" role="status" aria-live="polite"></div>
-          <p class="form-note">To receive real submissions, connect this form to a secure backend or a form service such as Formspree or EmailJS, configure spam protection, and publish a privacy notice.</p>
         </form>
       </div>
     </section>
@@ -173,7 +175,7 @@
 
   <footer class="site-footer">
     <div class="container footer-main"><a class="brand footer-brand" href="#top"><span>Nexora</span><strong>Solutions</strong><small>Simpler IT. Stronger Business.</small></a><nav aria-label="Footer navigation"><a href="#services">Services</a><a href="#solutions">Solutions</a><a href="#process">Process</a><a href="#about">About</a><a href="#contact">Contact</a></nav><a href="mailto:Arllan_Guzman03@yahoo.com">Arllan_Guzman03@yahoo.com</a></div>
-    <div class="container footer-bottom"><span>© <b id="current-year"></b> Nexora Solutions. All rights reserved.</span><span>Privacy notice recommended before collecting enquiries.</span></div>
+    <div class="container footer-bottom"><span>© <b id="current-year"></b> Nexora Solutions. All rights reserved.</span><span>Enquiries are submitted securely through the website form.</span></div>
   </footer>
 </body>
 </html>
