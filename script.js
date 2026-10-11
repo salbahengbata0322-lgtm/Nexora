@@ -94,24 +94,49 @@ form.querySelectorAll("input:not([type=checkbox]), select, textarea").forEach(fi
   field.addEventListener("input", () => { if (field.classList.contains("invalid")) showFieldState(field); });
 });
 
-form.addEventListener("submit", event => {
+form.addEventListener("submit", async event => {
   event.preventDefault();
-  const fields = [...form.querySelectorAll("input:not([type=checkbox]), select, textarea")];
+  const fields = [...form.querySelectorAll("input:not([type=checkbox]):not([type=hidden]), select, textarea")];
   const fieldsValid = fields.map(showFieldState).every(Boolean);
   const consent = form.elements.consent;
-
+  const submitButton = form.querySelector('button[type="submit"]');
   if (!fieldsValid || !consent.checked) {
     feedback.className = "form-feedback error";
-    feedback.textContent = consent.checked ? "Please correct the highlighted fields." : "Please confirm that you understand this is a demonstration form.";
-    const firstInvalid = form.querySelector(":invalid");
-    firstInvalid?.focus();
+    feedback.textContent = consent.checked ? "Please correct the highlighted fields." : "Please agree that your information may be used to respond to your enquiry.";
+    form.querySelector(":invalid")?.focus();
     return;
   }
-
-  feedback.className = "form-feedback success";
-  feedback.innerHTML = `Your enquiry is ready to review. This demonstration has not sent or stored any data. To contact Nexora Solutions now, email <a href="mailto:nexora-solutions2026@outlook.ph">nexora-solutions2026@outlook.ph</a>.`;
+  submitButton.disabled = true;
+  submitButton.setAttribute("aria-busy", "true");
+  submitButton.innerHTML = 'Sending… <span aria-hidden="true">→</span>';
+  feedback.className = "form-feedback";
+  feedback.textContent = "";
+  try {
+    const response = await fetch("/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams(new FormData(form)).toString()
+    });
+    if (!response.ok) throw new Error("Submission failed");
+    feedback.className = "form-feedback success";
+    feedback.textContent = "Thank you for your enquiry. Your message has been submitted to Nexora Solutions. We’ll get back to you using the email address you provided.";
+    form.reset();
+    messageCount.textContent = "0";
+    fields.forEach(field => {
+      field.classList.remove("invalid");
+      field.setAttribute("aria-invalid", "false");
+      const error = field.closest("label")?.querySelector(".field-error");
+      if (error) error.textContent = "";
+    });
+  } catch (error) {
+    feedback.className = "form-feedback error";
+    feedback.innerHTML = 'Your enquiry could not be submitted. Please try again or email <a href="mailto:nexora-solutions2026@outlook.ph">nexora-solutions2026@outlook.ph</a>.';
+  } finally {
+    submitButton.disabled = false;
+    submitButton.removeAttribute("aria-busy");
+    submitButton.innerHTML = 'Send Enquiry <span aria-hidden="true">→</span>';
+  }
 });
-
 const revealObserver = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
