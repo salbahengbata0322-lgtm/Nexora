@@ -87,3 +87,8 @@ footer{padding:36px 0 18px;background:rgba(229,239,243,.82);color:#1a303b;border
 .contact-form label:focus-within{transform:translateY(-2px)}
 @media(hover:hover) and (pointer:fine){.service:hover{transform:translateY(-8px) rotateX(1deg)}}
 @media(prefers-reduced-motion:reduce){.service,.service .icon,.service .demo,.pairs>div,.steps article>span,.summary article,.about-console,.contact-form,.contact-form label{transition:none!important;transform:none!important}.pairs>div:after,.about-console:before{display:none}}
+
+/* Scroll-triggered entrance states for the full-page motion pass */
+.motion-item{opacity:0;transform:translateY(22px) scale(.99);transition:opacity .85s var(--motion-ease),transform .85s var(--motion-ease);transition-delay:var(--motion-delay,0ms)}
+.motion-item.motion-in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.motion-item{opacity:1;transform:none;transition:none!important}}
