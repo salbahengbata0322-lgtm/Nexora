@@ -77,3 +77,21 @@ previewTabs.forEach((tab,index)=>{
     });
   }
 })();
+
+
+// Nexora marquee motion: pause off-screen and when the page is backgrounded.
+(()=>{
+  const track=document.querySelector(".marquee-track");
+  if(!track)return;
+  const reduce=window.matchMedia("(prefers-reduced-motion: reduce)");
+  if(reduce.matches)return;
+  const section=track.closest(".marquee-wrap");
+  const observer=new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{track.style.animationPlayState=entry.isIntersecting?"running":"paused"});
+  },{threshold:0});
+  observer.observe(section);
+  document.addEventListener("visibilitychange",()=>{
+    if(document.hidden)track.style.animationPlayState="paused";
+    else if(section.getBoundingClientRect().bottom>0&&section.getBoundingClientRect().top<window.innerHeight)track.style.animationPlayState="running";
+  });
+})();
