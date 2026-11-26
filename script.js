@@ -7,11 +7,27 @@ form.addEventListener("submit",async e=>{e.preventDefault();const fields=[...for
 const observer=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("visible");observer.unobserve(e.target)}}),{threshold:.12});document.querySelectorAll(".reveal").forEach(e=>observer.observe(e));const sections=[...document.querySelectorAll("main section[id]")],links=[...nav.querySelectorAll("a")];new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)links.forEach(a=>a.classList.toggle("active",a.hash===`#${e.target.id}`))}),{rootMargin:"-35% 0px -55%"}).observe?.(sections[0]);sections.slice(1).forEach(s=>new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)links.forEach(a=>a.classList.toggle("active",a.hash===`#${e.target.id}`))}),{rootMargin:"-35% 0px -55%"}).observe(s));document.querySelector("#year").textContent=new Date().getFullYear();
 
 
-// Apple-inspired navigation, cinematic hero transition, and accessible product preview tabs.
-const heroSection=document.querySelector(".hero"),heroMark=document.querySelector(".art-object");
-if(heroSection&&heroMark&&!window.matchMedia("(prefers-reduced-motion: reduce)").matches){let ticking=false;const updateHero=()=>{const rect=heroSection.getBoundingClientRect(),travel=Math.max(1,heroSection.offsetHeight-window.innerHeight),progress=Math.min(1,Math.max(0,-rect.top/travel));heroMark.style.transform=`translateY(${progress*-34}px) scale(${1+progress*.18}) rotate(${progress*5-2}deg)`;heroMark.style.opacity=String(1-progress*.22);ticking=false};window.addEventListener("scroll",()=>{if(!ticking){requestAnimationFrame(updateHero);ticking=true}},{passive:true});updateHero()}
-const previewTabs=[...document.querySelectorAll(".showcase-tab")],previewPanels=[...document.querySelectorAll(".preview-panel")];function activatePreview(tab,focus=false){previewTabs.forEach(t=>{const active=t===tab;t.classList.toggle("active",active);t.setAttribute("aria-selected",String(active));t.tabIndex=active?0:-1});previewPanels.forEach(p=>{p.hidden=p.id!==tab.getAttribute("aria-controls")});if(focus)tab.focus()}previewTabs.forEach((tab,index)=>{tab.addEventListener("click",()=>activatePreview(tab));tab.addEventListener("keydown",e=>{let next=index;if(e.key==="ArrowRight")next=(index+1)%previewTabs.length;else if(e.key==="ArrowLeft")next=(index-1+previewTabs.length)%previewTabs.length;else if(e.key==="Home")next=0;else if(e.key==="End")next=previewTabs.length-1;else return;e.preventDefault();activatePreview(previewTabs[next],true)})});
 
 
-// Gentle pointer-responsive depth on service cards; disabled on touch and reduced-motion devices.
-if(window.matchMedia("(hover:hover) and (pointer:fine)").matches&&!window.matchMedia("(prefers-reduced-motion: reduce)").matches){document.querySelectorAll(".service").forEach(card=>{card.addEventListener("pointermove",e=>{const r=card.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;card.style.transform=`perspective(900px) rotateX(${-y*3}deg) rotateY(${x*3}deg) translateY(-4px)`});card.addEventListener("pointerleave",()=>{card.style.transform=""})})}
+// Light-glass hero motion: subtle pointer depth and scroll-linked lift, disabled for reduced motion.
+const motionOK=!window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const heroGlass=document.querySelector("#hero-glass"),heroRoot=document.querySelector(".hero");
+if(motionOK&&heroGlass&&window.matchMedia("(hover:hover) and (pointer:fine)").matches){
+  const stage=heroGlass.closest(".hero-art");
+  stage.addEventListener("pointermove",e=>{
+    const r=stage.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
+    heroGlass.style.animationPlayState="paused";
+    heroGlass.style.transform=`translateY(-4px) rotateX(${-y*5}deg) rotateY(${x*7}deg)`;
+  });
+  stage.addEventListener("pointerleave",()=>{heroGlass.style.animationPlayState="running";heroGlass.style.transform=""});
+}
+if(motionOK&&heroGlass&&heroRoot){
+  let queued=false;
+  const updateHeroMotion=()=>{
+    const rect=heroRoot.getBoundingClientRect(),range=Math.max(1,heroRoot.offsetHeight-window.innerHeight),p=Math.min(1,Math.max(0,-rect.top/range));
+    heroGlass.style.setProperty("--scroll-progress",p.toFixed(3));
+    if(!window.matchMedia("(hover:hover) and (pointer:fine)").matches)heroGlass.style.transform=`translateY(${p*-20}px) scale(${1+p*.035})`;
+    queued=false;
+  };
+  window.addEventListener("scroll",()=>{if(!queued){requestAnimationFrame(updateHeroMotion);queued=true}},{passive:true});
+}
