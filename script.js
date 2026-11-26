@@ -53,3 +53,27 @@ previewTabs.forEach((tab,index)=>{
     event.preventDefault();activatePreviewTab(previewTabs[next],true);
   });
 });
+
+
+// Full-page motion pass: stagger section details when they enter view.
+(()=>{
+  if(window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+  const groups=[...document.querySelectorAll(".service-grid,.pairs,.steps,.summary,.showcase-ui,.about-grid,.contact-grid")];
+  groups.forEach(group=>[...group.children].forEach((child,index)=>child.style.setProperty("--motion-delay",(Math.min(index,5)*95)+"ms")));
+  const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{
+    if(!entry.isIntersecting)return;
+    entry.target.classList.add("motion-stagger");
+    [...entry.target.children].forEach(child=>{child.style.transitionDelay=child.style.getPropertyValue("--motion-delay")||"0ms";child.classList.add("motion-in")});
+    observer.unobserve(entry.target);
+  }),{threshold:.16,rootMargin:"0px 0px -5% 0px"});
+  groups.forEach(group=>observer.observe(group));
+  if(window.matchMedia("(hover:hover) and (pointer:fine)").matches){
+    document.querySelectorAll(".service").forEach(card=>{
+      card.addEventListener("pointermove",event=>{
+        const r=card.getBoundingClientRect(),x=(event.clientX-r.left)/r.width-.5,y=(event.clientY-r.top)/r.height-.5;
+        card.style.transform="translateY(-7px) rotateX("+(-y*2.8)+"deg) rotateY("+(x*3.2)+"deg)";
+      });
+      card.addEventListener("pointerleave",()=>{card.style.transform=""});
+    });
+  }
+})();
