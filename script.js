@@ -31,3 +31,25 @@ if(motionOK&&heroGlass&&heroRoot){
   };
   window.addEventListener("scroll",()=>{if(!queued){requestAnimationFrame(updateHeroMotion);queued=true}},{passive:true});
 }
+
+
+// Accessible product preview tabs (click, arrow keys, Home and End).
+const previewTabs=[...document.querySelectorAll(".showcase-tab")];
+const previewPanels=[...document.querySelectorAll(".preview-panel")];
+function activatePreviewTab(tab,moveFocus=false){
+  previewTabs.forEach(item=>{const active=item===tab;item.classList.toggle("active",active);item.setAttribute("aria-selected",String(active));item.tabIndex=active?0:-1});
+  previewPanels.forEach(panel=>{panel.hidden=panel.id!==tab.getAttribute("aria-controls")});
+  if(moveFocus)tab.focus();
+}
+previewTabs.forEach((tab,index)=>{
+  tab.addEventListener("click",()=>activatePreviewTab(tab));
+  tab.addEventListener("keydown",event=>{
+    let next=index;
+    if(event.key==="ArrowRight")next=(index+1)%previewTabs.length;
+    else if(event.key==="ArrowLeft")next=(index-1+previewTabs.length)%previewTabs.length;
+    else if(event.key==="Home")next=0;
+    else if(event.key==="End")next=previewTabs.length-1;
+    else return;
+    event.preventDefault();activatePreviewTab(previewTabs[next],true);
+  });
+});
