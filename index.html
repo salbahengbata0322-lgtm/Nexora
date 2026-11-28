@@ -1,243 +1,951 @@
 <!doctype html>
-<html lang="en"><head>
+<html lang="en">
+<head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#edf5ff">
-<title>Nexora — Motion-first 3D Experience</title>
+<title>Nexora — XoRa Experience Concept</title>
 <style>
-:root{--ink:#142947;--muted:#7187a4;--blue:#5d9edb;--cyan:#75d9ed;--glass:rgba(255,255,255,.55);--line:rgba(255,255,255,.9);--ease:cubic-bezier(.2,.78,.2,1)}
-*{box-sizing:border-box}html{scroll-behavior:smooth;background:#edf5ff}body{margin:0;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;background:radial-gradient(ellipse at 50% 0%,#d7edff 0,transparent 42%),linear-gradient(155deg,#f8fbff,#eaf3ff 52%,#f6faff);overflow-x:hidden}
-a{color:inherit}#ambient{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:.5}
+:root{--ink:#142947;--muted:#7187a4;--blue:#5d9edb;--cyan:#75d9ed;--glass:rgba(255,255,255,.62);--line:rgba(255,255,255,.9);--ease:cubic-bezier(.2,.78,.2,1)}
+*{box-sizing:border-box}html{scroll-behavior:smooth;background:#edf5ff}body{margin:0;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;background:radial-gradient(ellipse at 50% 0%,#d7edff 0,transparent 42%),linear-gradient(155deg,#f8fbff,#eaf3ff 52%,#f6faff);overflow-x:hidden}a{color:inherit;text-decoration:none}
+#ambient{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:.42}
 .progress{height:2px;position:fixed;z-index:40;top:0;left:0;width:0;background:linear-gradient(90deg,#79d9ed,#639de0,#a7dfff);box-shadow:0 0 15px #78d7ed}
-header{position:fixed;z-index:30;top:0;left:0;width:100%;height:72px;padding:0 5vw;display:flex;align-items:center;justify-content:space-between;background:#f8fbffb8;border-bottom:1px solid #fff;backdrop-filter:blur(24px)}
-.brand{width:104px;height:62px;padding:5px 10px;display:flex;align-items:center;justify-content:center;flex:0 0 auto;overflow:hidden;border:1px solid rgba(73,218,255,.28);border-radius:15px;background:linear-gradient(135deg,rgba(5,17,39,.94),rgba(10,35,63,.86));box-shadow:0 7px 24px rgba(0,111,190,.13),inset 0 1px 0 rgba(255,255,255,.12);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}.brand img{display:block;width:84px;height:54px;object-fit:contain;object-position:center;border-radius:3px}
-nav{display:flex;gap:26px}nav a,.nav-cta{font-size:10px;text-decoration:none;color:#7185a1;letter-spacing:.04em}nav a:hover{color:#317fbe}.nav-cta{border:1px solid #fff;border-radius:30px;padding:10px 16px;background:#ffffffa8}
-main{position:relative;z-index:1}.wrap{max-width:1240px;margin:auto;padding-inline:6vw}.kicker{font-size:9px;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:#6399cb}
+header{position:fixed;z-index:30;top:0;left:0;width:100%;height:72px;padding:0 5vw;display:flex;align-items:center;justify-content:space-between;background:#f8fbffcc;border-bottom:1px solid #fff;backdrop-filter:blur(24px)}
+.brand{display:flex;align-items:center;gap:11px}.brand img{width:58px;height:54px;object-fit:contain;border-radius:7px}.brand strong{font-size:13px;letter-spacing:.18em}.brand small{display:block;font-size:8px;letter-spacing:.48em;color:#7e97b3;margin-top:4px}
+nav{display:flex;gap:25px}nav a,.nav-cta{font-size:10px;color:#7185a1;letter-spacing:.04em}nav a:hover{color:#317fbe}.nav-cta{border:1px solid #fff;border-radius:30px;padding:10px 16px;background:#ffffffa8}
+main{position:relative;z-index:1}.wrap{max-width:1240px;margin:auto;padding:0 5vw}
 .hero{min-height:100svh;display:grid;place-items:center;position:relative;padding:115px 20px 75px;text-align:center;overflow:hidden}
-.hero-copy{position:relative;z-index:3;max-width:820px;pointer-events:none}.hero h1{font-size:clamp(54px,9vw,112px);line-height:.88;letter-spacing:-.085em;font-weight:640;margin:22px 0}.hero h1 span{display:block;background:linear-gradient(100deg,#4c80bf,#5dbfe0 55%,#8da7e3);color:transparent;background-clip:text;-webkit-background-clip:text}
-.hero p{max-width:480px;margin:0 auto;color:#7186a2;font-size:14px;line-height:1.85}.hero-actions{display:flex;justify-content:center;gap:12px;margin-top:28px;pointer-events:auto}
-.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 21px;border-radius:28px;background:linear-gradient(110deg,#31598f,#559bd1 68%,#65c4dc);color:#fff;text-decoration:none;font-size:11px;box-shadow:0 12px 30px #508dca44;transition:.3s}.btn:hover{transform:translateY(-4px);box-shadow:0 18px 36px #508dca66}.text-link{font-size:11px;color:#6886a8;text-decoration:none;padding:13px}
-.hero-orbit{position:absolute;width:min(75vw,780px);aspect-ratio:1;top:48%;left:50%;transform:translate(-50%,-50%);pointer-events:none}
-.hero-orbit:before,.hero-orbit:after{content:"";position:absolute;inset:9%;border:1px solid #ffffffad;border-radius:50%;transform:rotateX(67deg) rotateZ(-25deg);box-shadow:0 0 30px #8ddcf533}
-.hero-orbit:after{inset:18%;transform:rotateX(72deg) rotateZ(50deg);border-style:dashed;opacity:.65}
-#hero3d{position:absolute;inset:0;width:100%;height:100%;filter:drop-shadow(0 24px 40px #78a9d533)}
-.hero-glow{position:absolute;inset:18%;border-radius:50%;background:radial-gradient(circle,#b6e7ff7a,transparent 68%);filter:blur(28px);animation:pulse 6s ease-in-out infinite}
-@keyframes pulse{50%{transform:scale(1.18);opacity:.65}}
-.hero-hint{position:absolute;bottom:27px;left:50%;transform:translateX(-50%);font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:#91a6bf;white-space:nowrap}
-.floating-label{position:absolute;z-index:4;padding:12px 15px;border:1px solid #fff;border-radius:14px;background:#ffffffa8;backdrop-filter:blur(18px);box-shadow:0 15px 40px #6c99c324;color:#7b8fa9;font-size:9px;text-align:left;animation:float 7s ease-in-out infinite}
-.floating-label b{display:block;color:#2e4e75;font-size:11px;margin-top:4px}.fl1{top:26%;left:9%}.fl2{right:8%;bottom:23%;animation-delay:-3s}.fl3{right:13%;top:20%;animation-delay:-1.5s}
-@keyframes float{50%{transform:translateY(-13px) rotate(1deg)}}
-.marquee{position:relative;z-index:2;overflow:hidden;padding:20px 0;border-block:1px solid #fff;background:#ffffff63;backdrop-filter:blur(15px)}
-.marquee-track{display:flex;width:max-content;animation:marquee 42s linear infinite}.marquee:hover .marquee-track{animation-play-state:paused}.marquee-set{display:flex;align-items:center;gap:30px;padding-right:30px;white-space:nowrap}.marquee strong{font-size:clamp(17px,2vw,24px);letter-spacing:-.04em;color:#2d496c}.marquee small{display:block;font-size:8px;letter-spacing:.17em;color:#8fa3bb;margin-top:5px}.spark{color:#6fc9e6;font-size:20px}
-@keyframes marquee{to{transform:translateX(-50%)}}
-.chapter{min-height:94vh;padding:125px 0;display:flex;align-items:center;position:relative;overflow:hidden}.chapter-inner{width:100%;position:relative;z-index:2}
-.chapter-head{display:flex;align-items:end;justify-content:space-between;gap:30px;margin-bottom:38px}.chapter h2{font-size:clamp(42px,6vw,76px);line-height:.93;letter-spacing:-.075em;margin:14px 0 0;font-weight:630}.chapter h2 span{color:#609ed5}.chapter-intro{max-width:330px;color:#788ca6;font-size:13px;line-height:1.8;margin:0}
-.globe-section{min-height:100vh}.globe-stage{height:490px;position:relative;perspective:1100px;display:grid;place-items:center}
-.globe-ring{position:absolute;width:min(68vw,610px);height:min(30vw,250px);border:1px solid #fff;border-radius:50%;transform:rotate(-22deg);box-shadow:0 0 25px #8bdaf033;animation:ringturn 22s linear infinite}
-.globe-ring.r2{width:min(76vw,700px);height:min(40vw,310px);transform:rotate(48deg);animation-duration:30s;animation-direction:reverse;border-style:dashed;opacity:.6}
-@keyframes ringturn{to{rotate:360deg}}
-#globe{position:absolute;width:min(100%,650px);height:100%;inset:0;margin:auto}
-.globe-caption{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);font-size:9px;color:#8ba0b9;letter-spacing:.15em;white-space:nowrap}
-.service-section{background:linear-gradient(110deg,#e6f2ff8c,#ffffff55,#e2f5ff80);border-block:1px solid #fff}
-.service-stage{height:500px;position:relative;perspective:1300px;overflow:hidden;display:grid;place-items:center}
-.service-wheel{position:relative;width:310px;height:350px;transform-style:preserve-3d;animation:wheel 26s linear infinite}
-.service-wheel:hover{animation-play-state:paused}
-@keyframes wheel{to{transform:rotateY(360deg)}}
-.service-card{position:absolute;left:50%;top:50%;width:245px;min-height:260px;padding:24px;border-radius:25px;border:1px solid #fff;background:linear-gradient(145deg,#ffffffd9,#ffffff75);box-shadow:0 24px 60px #7097c42a,inset 0 1px #fff;backdrop-filter:blur(20px);transform-style:preserve-3d;backface-visibility:hidden;display:flex;flex-direction:column;justify-content:space-between}
-.service-card:nth-child(1){transform:translate(-50%,-50%) rotateY(0) translateZ(360px)}.service-card:nth-child(2){transform:translate(-50%,-50%) rotateY(60deg) translateZ(360px)}.service-card:nth-child(3){transform:translate(-50%,-50%) rotateY(120deg) translateZ(360px)}.service-card:nth-child(4){transform:translate(-50%,-50%) rotateY(180deg) translateZ(360px)}.service-card:nth-child(5){transform:translate(-50%,-50%) rotateY(240deg) translateZ(360px)}.service-card:nth-child(6){transform:translate(-50%,-50%) rotateY(300deg) translateZ(360px)}
-.service-card .num{font-size:9px;letter-spacing:.2em;color:#8ba4c1}.service-card .glyph{font-size:34px;color:#69b9dd}.service-card h3{font-size:20px;line-height:1.1;letter-spacing:-.04em;margin:20px 0 8px}.service-card p{font-size:11px;line-height:1.7;color:#8293a9;margin:0}
-.service-tip{text-align:center;color:#8da1ba;font-size:9px;letter-spacing:.15em;margin-top:-2px}
-.solution-section{min-height:100vh}.solution-layout{display:grid;grid-template-columns:.85fr 1.15fr;gap:50px;align-items:center}.solution-copy p{font-size:13px;line-height:1.9;color:#7b8da6;max-width:390px}.solution-copy .btn{margin-top:14px}
-.solution-window{height:440px;position:relative;perspective:1000px}.solution-panel{position:absolute;inset:25px 5px 25px 15px;border:1px solid #fff;border-radius:28px;background:linear-gradient(145deg,#ffffffd9,#ffffff70);box-shadow:0 30px 80px #6d94c333;backdrop-filter:blur(24px);padding:22px;transform:rotateY(-12deg) rotateX(5deg);animation:panelfloat 8s ease-in-out infinite}
-@keyframes panelfloat{50%{transform:rotateY(-5deg) rotateX(1deg) translateY(-12px)}}
-.panel-top{display:flex;justify-content:space-between;align-items:center;font-size:9px;color:#7a8ea8;border-bottom:1px solid #dce9f7;padding-bottom:14px}.dots{display:flex;gap:5px}.dots i{width:6px;height:6px;border-radius:50%;background:#9fc8e7}
-.panel-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:16px 0}.panel-stat{background:#ffffffa8;border:1px solid #fff;border-radius:13px;padding:12px}.panel-stat small{font-size:8px;color:#8da0b7}.panel-stat b{display:block;font-size:22px;color:#2e4d74;margin-top:5px}
-.bars{height:170px;display:flex;align-items:end;gap:8px;padding:15px;border-radius:16px;background:linear-gradient(180deg,#e9f5ff,#ffffff9c)}.bars i{flex:1;border-radius:7px 7px 2px 2px;background:linear-gradient(180deg,#8bdcf0,#659de0);height:var(--h);transform-origin:bottom;animation:rise 1.5s var(--ease) both;animation-delay:calc(var(--i)*90ms)}@keyframes rise{from{transform:scaleY(.05)}to{transform:scaleY(1)}}
-.panel-note{font-size:8px;color:#90a3b9;margin-top:12px;display:flex;justify-content:space-between}
-.process{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.process-item{padding:22px 18px;border-top:1px solid #c7dff4;transition:transform .4s}.process-item:hover{transform:translateY(-8px)}.process-item small{font-size:9px;letter-spacing:.18em;color:#83a0c2}.process-item h3{font-size:18px;margin:18px 0 8px}.process-item p{font-size:11px;line-height:1.8;color:#8392a8;margin:0}
-.contact{min-height:65vh;display:grid;place-items:center;text-align:center;padding:100px 20px;position:relative;overflow:hidden}.contact:before,.contact:after{content:"";position:absolute;width:430px;height:430px;border:1px solid #fff;border-radius:50%;animation:contactring 8s ease-out infinite}.contact:after{animation-delay:4s}@keyframes contactring{0%{transform:scale(.55);opacity:0}25%{opacity:.7}100%{transform:scale(1.5);opacity:0}}
-.contact-content{position:relative;z-index:2}.contact h2{font-size:clamp(44px,7vw,84px);line-height:.92;letter-spacing:-.08em;margin:18px 0}.contact h2 span{color:#5d9bd5}.contact p{font-size:13px;color:#7b8da5;line-height:1.8}
-footer{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;padding:25px 5vw;border-top:1px solid #fff;color:#8a9cb3;font-size:9px}.footbrand{width:104px;height:62px;padding:5px 10px;display:flex;align-items:center;justify-content:center;flex:0 0 auto;overflow:hidden;border:1px solid rgba(73,218,255,.28);border-radius:15px;background:linear-gradient(135deg,rgba(5,17,39,.94),rgba(10,35,63,.86));box-shadow:0 7px 24px rgba(0,111,190,.13),inset 0 1px 0 rgba(255,255,255,.12);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}.footbrand img{display:block;width:84px;height:54px;object-fit:contain;object-position:center;border-radius:3px}
-.reveal{opacity:0;transform:translateY(32px);filter:blur(3px);transition:opacity .85s var(--ease),transform .85s var(--ease),filter .85s}.reveal.visible{opacity:1;transform:none;filter:none}
-@media(max-width:850px){nav{gap:13px}.chapter-head{display:block}.chapter-intro{margin-top:18px}.solution-layout{grid-template-columns:1fr;gap:20px}.solution-window{height:390px}.service-wheel{transform:scale(.8);animation-duration:32s}.globe-stage{height:390px}}
-@media(max-width:600px){header{height:64px;padding:0 17px}.brand,.footbrand{width:88px;height:52px;padding:4px 7px;border-radius:12px}.brand img,.footbrand img{width:72px;height:44px}nav{display:none}.progress{top:64px}.hero{min-height:95svh;padding-top:95px}.hero h1{font-size:58px}.hero p{font-size:12px}.floating-label{font-size:8px;padding:9px 11px}.fl1{left:2%;top:23%}.fl2{right:2%;bottom:20%}.fl3{right:4%;top:16%}.hero-orbit{width:110vw;top:47%}.chapter{min-height:auto;padding:85px 0}.chapter h2{font-size:48px}.globe-stage{height:330px}.service-stage{height:380px;perspective:850px}.service-wheel{transform:scale(.57);animation-duration:36s}.solution-window{height:315px}.solution-panel{inset:12px 0;padding:13px}.bars{height:105px}.process{grid-template-columns:repeat(2,1fr)}.process-item{padding:16px 10px}.contact{min-height:55vh}footer{flex-wrap:wrap;gap:12px}}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.reveal{opacity:1;transform:none;filter:none}}
+.hero-copy{position:relative;z-index:5;max-width:820px;pointer-events:none}.kicker{font-size:9px;letter-spacing:.28em;color:#6994bc;text-transform:uppercase}.hero h1{font-size:clamp(48px,8vw,100px);line-height:.91;letter-spacing:-.075em;font-weight:640;margin:20px 0}.hero h1 span{display:block;background:linear-gradient(100deg,#4c80bf,#5dbfe0 55%,#8da7e3);color:transparent;background-clip:text;-webkit-background-clip:text}.hero p{max-width:510px;margin:0 auto;color:#7186a2;font-size:14px;line-height:1.85}.hero-actions{display:flex;justify-content:center;gap:12px;margin-top:26px;pointer-events:auto}.btn{display:inline-flex;padding:13px 19px;border-radius:30px;background:linear-gradient(110deg,#4f8ecb,#64c9df);color:white;font-size:10px;box-shadow:0 12px 28px #69b9df40}.text-link{font-size:10px;padding:13px;color:#6683a4}
+.orbit-scene{position:absolute;width:min(73vw,790px);aspect-ratio:1;top:48%;left:50%;transform:translate(-50%,-50%);pointer-events:none}
+.orbit-scene:before{content:"";position:absolute;inset:4%;border-radius:50%;background:radial-gradient(circle at 50% 48%,rgba(65,137,190,.30) 0%,rgba(107,177,220,.20) 32%,rgba(190,224,247,.10) 55%,transparent 73%);filter:blur(22px);animation:glow 6s ease-in-out infinite}
+#orbitParticles{position:absolute;inset:0;width:100%;height:100%;filter:drop-shadow(0 15px 30px #78a9d533)}
+.ring{position:absolute;inset:8%;border:1px solid #ffffffc9;border-radius:50%;transform:rotateX(68deg) rotateZ(-24deg);box-shadow:0 0 30px #8ddcf533}
+.ring.r2{inset:17%;border-style:dashed;transform:rotateX(72deg) rotateZ(52deg);animation:turn 38s linear infinite}
+.ring.r3{inset:25%;border-color:#78c9ef88;transform:rotateX(65deg) rotateZ(105deg);animation:turn 28s linear infinite reverse}
+.ring.r4{inset:2%;border-color:#ffffff7d;transform:rotateX(74deg) rotateZ(12deg);animation:turn 55s linear infinite}
+.ring:after{content:"";position:absolute;left:50%;top:-4px;width:7px;height:7px;border-radius:50%;background:#fff;box-shadow:0 0 14px 5px #6edfff}
+.core{position:absolute;inset:33%;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 45% 38%,rgba(112,174,214,.72),rgba(61,112,158,.56) 48%,rgba(28,68,108,.34) 76%,rgba(255,255,255,.10));border:1px solid rgba(255,255,255,.82);box-shadow:0 0 58px rgba(61,139,194,.34),inset 0 0 42px rgba(17,67,112,.22)}
+.core-mark{font-size:clamp(34px,5vw,62px);font-weight:300;color:#f3fbff;text-shadow:0 2px 16px rgba(11,66,111,.55),0 0 22px #a8e8ff;letter-spacing:-.1em}
+.orbit-label{position:absolute;z-index:4;padding:12px 15px;border:1px solid #ffffffd9;border-radius:14px;background:#ffffffa8;backdrop-filter:blur(18px);box-shadow:0 15px 40px #6c99c324;color:#7b8fa9;font-size:9px;text-align:left;animation:float 7s ease-in-out infinite}
+.orbit-label b{display:block;color:#2e4e75;font-size:11px;margin-top:4px}.l1{top:27%;left:8%}.l2{right:8%;bottom:24%;animation-delay:-3s}.l3{right:12%;top:20%;animation-delay:-1.5s}
+.hero-hint{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:#91a6bf;white-space:nowrap}
+.marquee{overflow:hidden;border-block:1px solid #fff;background:#ffffff61;padding:23px 0}.marquee-track{display:flex;gap:70px;width:max-content;animation:marquee 34s linear infinite}.marquee-set{display:flex;align-items:center;gap:40px}.marquee strong{font-size:17px;font-weight:450;color:#44678f}.marquee small{display:block;font-size:8px;letter-spacing:.2em;color:#8ba1ba;margin-top:5px}.spark{color:#73cce4}
+.chapter{padding:115px 0}.chapter-head{display:flex;justify-content:space-between;gap:40px;align-items:end;margin-bottom:38px}.chapter h2{font-size:clamp(38px,5vw,64px);line-height:.98;letter-spacing:-.06em;font-weight:560;margin:12px 0}.chapter h2 span{color:#6aabd7}.chapter-intro{max-width:370px;color:#7489a4;font-size:13px;line-height:1.8}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.card{padding:25px;border:1px solid #fff;border-radius:20px;background:linear-gradient(145deg,#ffffffa8,#edf6ff91);box-shadow:0 16px 45px #739cc51a;min-height:170px}.card b{font-size:25px;color:#6abedc;font-weight:400}.card h3{font-size:15px;font-weight:550;margin:16px 0 8px}.card p{font-size:11px;color:#7c90a9;line-height:1.7;margin:0}
+.orbit-feature{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:center;padding:32px;border:1px solid #fff;border-radius:26px;background:#ffffff75;box-shadow:0 20px 60px #7aa3c51c}.feature-visual{height:300px;border-radius:20px;position:relative;overflow:hidden;background:radial-gradient(circle at 50% 50%,#d6f4ff,#e8f3ff 60%,#f6faff)}.feature-visual:before,.feature-visual:after{content:"";position:absolute;inset:14%;border:1px solid #fff;border-radius:50%;transform:rotateX(65deg) rotateZ(25deg)}.feature-visual:after{inset:24%;transform:rotateX(68deg) rotateZ(-45deg);border-style:dashed}.feature-core{position:absolute;inset:38%;border-radius:50%;background:radial-gradient(circle,#fff,#b5e9ff);box-shadow:0 0 50px #6cc8f4;animation:glow 4s infinite}
+.feature-copy p{font-size:13px;line-height:1.9;color:#758aa5}.feature-copy .kicker{margin-bottom:12px}
+.contact{padding:100px 0;background:linear-gradient(140deg,#e5f3ff,#f7fbff)}.contact-inner{display:grid;grid-template-columns:1fr 1fr;gap:50px}.contact h2{font-size:clamp(42px,6vw,70px);letter-spacing:-.07em;line-height:.95;margin:15px 0}.contact p{color:#7186a2;font-size:13px;line-height:1.8;max-width:420px}.contact-form{padding:25px;border:1px solid #fff;border-radius:22px;background:#ffffffa8;box-shadow:0 20px 60px #719cc51c}.contact-form label{display:block;font-size:10px;color:#667f9e;margin-bottom:13px}.contact-form input,.contact-form textarea{width:100%;margin-top:7px;border:1px solid #dceafa;background:#f9fcff;border-radius:10px;padding:12px;font:inherit;font-size:12px;color:#1b3554}.contact-form textarea{min-height:90px;resize:vertical}
+footer{padding:28px 5vw;border-top:1px solid #fff;display:flex;justify-content:space-between;align-items:center;color:#8a9cb3;font-size:9px}footer .brand img{width:48px;height:44px}
+@keyframes turn{to{rotate:360deg}}@keyframes float{50%{translate:0 -10px}}@keyframes glow{50%{opacity:.55;scale:1.06}}@keyframes marquee{to{transform:translateX(-50%)}}
+@media(max-width:850px){nav{gap:13px}.chapter-head{display:block}.chapter-intro{margin-top:18px}.cards{grid-template-columns:repeat(2,1fr)}.orbit-feature,.contact-inner{grid-template-columns:1fr}.feature-visual{height:250px}}
+@media(max-width:600px){header{height:64px;padding:0 16px}.brand img{width:47px;height:44px}nav{display:none}.hero{min-height:95svh;padding-top:92px}.hero h1{font-size:55px}.hero p{font-size:12px}.orbit-scene{width:112vw;top:46%}.orbit-label{font-size:8px;padding:8px 10px}.orbit-label b{font-size:9px}.l1{left:1%;top:23%}.l2{right:1%;bottom:19%}.l3{right:1%;top:17%}.chapter{padding:78px 0}.chapter h2{font-size:43px}.cards{grid-template-columns:1fr}.orbit-feature{padding:17px}.feature-visual{height:210px}.contact{padding:75px 0}footer{gap:14px;flex-wrap:wrap}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}
 
-/* Integrated Nexora content and working demo components */
-.content-chapter{position:relative;padding:105px 0;background:linear-gradient(145deg,#f5f9fd,#eaf2fa);color:#15243a;overflow:hidden}
-.content-chapter .kicker{color:#4d86b5}.content-chapter h2{color:#14253b}
-.content-chapter .chapter-intro{color:#667990}
-.inventory-shell{margin-top:34px;padding:28px;border:1px solid rgba(116,157,194,.3);border-radius:24px;background:rgba(255,255,255,.76);box-shadow:0 24px 70px rgba(35,76,117,.1);backdrop-filter:blur(18px)}
-.inventory-top{display:flex;justify-content:space-between;gap:16px;align-items:center;margin-bottom:22px}
-.inventory-top strong{font:700 18px Manrope,sans-serif}.inventory-top small{color:#71849b}
+/* Preserved Nexora rotating capability carousel */
+.service-stage{height:390px;position:relative;display:grid;place-items:center;perspective:1100px;overflow:hidden}
+.service-wheel{position:relative;width:250px;height:245px;transform-style:preserve-3d;animation:serviceSpin 30s linear infinite}
+.service-stage:hover .service-wheel{animation-play-state:paused}
+.service-card{position:absolute;inset:0;padding:25px 23px;border:1px solid rgba(255,255,255,.95);border-radius:28px;background:linear-gradient(145deg,rgba(255,255,255,.92),rgba(239,247,255,.78));box-shadow:0 18px 48px rgba(77,125,171,.16);backface-visibility:hidden;display:flex;flex-direction:column;justify-content:space-between}
+.service-card .num{font-size:9px;letter-spacing:.2em;color:#91a9c4}.service-card .glyph{font-size:31px;color:#69b9dc}.service-card h3{font-size:19px;line-height:1.12;color:#183453;margin:0 0 9px}.service-card p{font-size:11px;line-height:1.7;color:#7a90aa;margin:0}
+.service-card:nth-child(1){transform:rotateY(0deg) translateZ(300px)}.service-card:nth-child(2){transform:rotateY(60deg) translateZ(300px)}.service-card:nth-child(3){transform:rotateY(120deg) translateZ(300px)}.service-card:nth-child(4){transform:rotateY(180deg) translateZ(300px)}.service-card:nth-child(5){transform:rotateY(240deg) translateZ(300px)}.service-card:nth-child(6){transform:rotateY(300deg) translateZ(300px)}
+.service-tip{text-align:center;font-size:8px;letter-spacing:.2em;color:#91a6bf;margin-top:4px}
+@keyframes serviceSpin{to{transform:rotateY(360deg)}}
+@media(max-width:600px){.service-stage{height:350px;perspective:850px}.service-wheel{transform:scale(.66);animation-duration:36s}.service-card{padding:22px}}
+@media(prefers-reduced-motion:reduce){.service-wheel{animation:none}}
+
+
+/* NEXORA XoRa — integrated dark holographic section */
+.orbit-section{position:relative;isolation:isolate;overflow:hidden;padding:92px 0 76px;background:radial-gradient(ellipse at 50% 48%,#0a2c48 0,#04192b 43%,#020b14 100%);color:#e4f7ff}
+.orbit-section:before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background-image:linear-gradient(rgba(26,151,202,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(26,151,202,.055) 1px,transparent 1px);background-size:38px 38px;mask-image:linear-gradient(transparent,#000 10%,#000 90%,transparent)}
+.orbit-section .orbit-wrap{max-width:1280px;margin:auto;padding:0 5vw}
+.orbit-section .orbit-title{text-align:center;margin-bottom:22px}
+.orbit-section .orbit-title .kicker{color:#5fcbe9}
+.orbit-section .orbit-title h2{font-size:clamp(36px,5vw,58px);letter-spacing:-.055em;font-weight:550;color:#e7f8ff;margin:12px 0}
+.orbit-section .orbit-title p{color:#82a9c1;font-size:12px;line-height:1.8;margin:0 auto;max-width:520px}
+.orbit-layout{display:grid;grid-template-columns:minmax(150px,205px) minmax(280px,1fr) minmax(150px,205px);align-items:center;gap:clamp(10px,2vw,24px)}
+.orbit-panel{border:1px solid rgba(9,187,232,.35);background:linear-gradient(145deg,rgba(3,30,49,.8),rgba(2,17,30,.78));box-shadow:0 0 30px rgba(0,143,208,.08),inset 0 0 24px rgba(0,155,210,.045);padding:18px 15px;position:relative;color:#d5edf8;min-height:250px}
+.orbit-panel:before,.orbit-panel:after{content:"";position:absolute;width:16px;height:16px;border-color:#08d7ff;opacity:.7}
+.orbit-panel:before{left:-1px;top:-1px;border-left:1px solid;border-top:1px solid}.orbit-panel:after{right:-1px;bottom:-1px;border-right:1px solid;border-bottom:1px solid}
+.orbit-panel-title{font-size:9px;letter-spacing:.2em;color:#9eddf1;text-transform:uppercase;margin-bottom:18px}.orbit-panel-title b{color:#08d7ff;font-size:14px;margin-right:8px;font-weight:400}
+.orbit-status{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(75,167,203,.14);font-size:9px;color:#c7e3f0}.orbit-status:last-of-type{border:0}
+.orbit-online{color:#28e9b4;font-size:7px;letter-spacing:.08em}.orbit-online:before{content:"";display:inline-block;width:5px;height:5px;border-radius:50%;background:#28e9b4;box-shadow:0 0 10px #28e9b4;margin-right:6px}
+.orbit-metric{margin-top:18px}.orbit-metric small{font-size:7px;letter-spacing:.12em;color:#648ba2}.orbit-metric strong{display:block;font-size:24px;font-weight:300;color:#a8e9ff;margin:7px 0}.orbit-meter{height:4px;background:#103047}.orbit-meter i{display:block;width:87%;height:100%;background:linear-gradient(90deg,#087bcb,#18dfff);box-shadow:0 0 10px #00bfff}
+.orbit-cap{display:flex;align-items:center;gap:9px;padding:13px 0;border-bottom:1px solid rgba(75,167,203,.14);font-size:9px;color:#d5edf8}.orbit-cap:last-child{border:0}.orbit-cap b{width:17px;color:#08d7ff;font-size:13px;font-weight:400}.orbit-cap em{margin-left:auto;color:#12c8ee;font-style:normal}
+.orbit-visual{position:relative;min-height:510px;display:grid;place-items:center;isolation:isolate}
+#nexoraOrbitParticles{position:absolute;inset:0;width:100%;height:100%}
+.orbit-core{position:relative;width:min(100%,510px);aspect-ratio:1;display:grid;place-items:center}
+.orbit-ring{position:absolute;inset:8%;border:1px solid rgba(20,190,240,.32);border-radius:50%;box-shadow:0 0 24px rgba(0,157,221,.06),inset 0 0 20px rgba(0,157,221,.04)}
+.orbit-ring:before{content:"";position:absolute;inset:7%;border:1px dashed rgba(18,186,236,.25);border-radius:50%}
+.orbit-ring.r2{inset:15%;border-color:rgba(12,205,250,.55);border-left-color:transparent;border-right-color:rgba(12,205,250,.7);animation:orbitSpin 26s linear infinite}
+.orbit-ring.r3{inset:22%;border:2px solid transparent;border-top-color:#10dfff;border-bottom-color:rgba(8,130,207,.8);filter:drop-shadow(0 0 7px #00bfff);animation:orbitSpin 13s linear infinite reverse}
+.orbit-ring.r4{inset:29%;border-color:rgba(24,186,235,.42);border-left-color:transparent;animation:orbitSpin 38s linear infinite}
+.orbit-ring.r5{inset:36%;border-style:dashed;border-color:rgba(33,190,235,.32);animation:orbitSpin 50s linear infinite}
+.orbit-path{position:absolute;width:116%;height:29%;border:1px solid rgba(16,195,244,.68);border-radius:50%;transform:rotate(-12deg);filter:drop-shadow(0 0 5px #078ec4);animation:orbitPath 18s linear infinite}
+.orbit-path.p2{width:102%;height:38%;transform:rotate(61deg);opacity:.56;animation-duration:24s;animation-direction:reverse}
+.orbit-path.p3{width:110%;height:22%;transform:rotate(-63deg);opacity:.42;animation-duration:30s}
+.orbit-path:after{content:"";position:absolute;left:4%;top:50%;width:6px;height:6px;border-radius:50%;background:#c3f8ff;box-shadow:0 0 14px 4px #00cfff}
+.orbit-center{position:absolute;inset:35%;border:1px solid rgba(10,206,255,.6);border-radius:50%;background:radial-gradient(circle at 50% 42%,rgba(13,91,129,.55),rgba(2,20,35,.96) 72%);box-shadow:0 0 42px rgba(0,180,240,.17),inset 0 0 35px rgba(0,172,233,.13);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.orbit-center .symbol{font-size:clamp(36px,5vw,60px);font-weight:300;line-height:1;color:#10dfff;text-shadow:0 0 14px #00cfff,0 0 32px #007dff;animation:orbitFloat 4s ease-in-out infinite}
+.orbit-center .name{font-size:clamp(15px,1.9vw,24px);letter-spacing:.16em;margin-top:12px;color:#e4f7ff;font-weight:500}
+.orbit-center .sub{font-size:7px;letter-spacing:.5em;color:#4ddfff;margin-top:5px}
+.orbit-center .pill{font-size:6px;letter-spacing:.1em;color:#73eaff;border:1px solid rgba(14,208,255,.6);border-radius:20px;padding:6px 9px;margin-top:12px;background:rgba(0,145,205,.08)}
+.orbit-base{position:absolute;bottom:3%;left:0;right:0;text-align:center;font-size:7px;letter-spacing:.22em;color:#79b6d1}
+@keyframes orbitSpin{to{transform:rotate(360deg)}}@keyframes orbitPath{to{rotate:360deg}}@keyframes orbitFloat{50%{transform:translateY(-5px)}}
+@media(max-width:850px){.orbit-layout{grid-template-columns:1fr 1fr}.orbit-visual{grid-column:1/-1;grid-row:1;min-height:440px}.orbit-panel.left{grid-column:1}.orbit-panel.right{grid-column:2}}
+@media(max-width:600px){.orbit-section{padding:72px 0 56px}.orbit-section .orbit-wrap{padding:0 16px}.orbit-title{padding:0 10px}.orbit-layout{display:flex;flex-direction:column;gap:14px}.orbit-visual{order:0;width:100%;min-height:0}.orbit-core{width:min(96vw,430px)}.orbit-panel{width:100%;min-height:0;padding:15px}.orbit-panel.left{order:1}.orbit-panel.right{order:2}.orbit-status{padding:8px 0}.orbit-cap{padding:10px 0}.orbit-base{font-size:6px;letter-spacing:.15em}}
+@media(prefers-reduced-motion:reduce){.orbit-ring,.orbit-path,.orbit-center .symbol{animation:none!important}}
+
+
+/* XoRa now occupies the original homepage hero position */
+.orbit-hero{min-height:calc(100svh - 72px);display:flex;align-items:center;padding:48px 0 34px}
+.orbit-hero .orbit-wrap{width:100%}
+.orbit-hero .orbit-title{margin-bottom:4px}
+.orbit-hero .orbit-title h2{font-size:clamp(42px,5.5vw,66px);letter-spacing:.04em}
+.orbit-hero .orbit-visual{min-height:min(62vh,590px)}
+@media(max-width:600px){.orbit-hero{min-height:auto;padding:55px 0 42px}.orbit-hero .orbit-visual{min-height:0}}
+
+
+/* Reinstated original Nexora section sequence */
+.solution-layout{display:grid;grid-template-columns:.85fr 1.15fr;gap:7vw;align-items:center}
+.solution-copy h2{font-size:clamp(44px,6vw,74px);line-height:.95;letter-spacing:-.07em;margin:16px 0}
+.solution-copy h2 span,.chapter h2 span{color:#609ed5}
+.solution-copy p{font-size:13px;line-height:1.9;color:#7489a4;max-width:410px;margin-bottom:26px}
+.solution-window{padding:12px;border-radius:28px;background:linear-gradient(145deg,#ffffffc9,#edf6ffb8);border:1px solid #fff;box-shadow:0 24px 65px #709ac52b;transform:rotate(-1.2deg)}
+.solution-panel{padding:20px;border-radius:19px;background:#ffffffa8}
+.panel-top{display:flex;justify-content:space-between;align-items:center;font-size:8px;color:#7890ac;border-bottom:1px solid #dceafa;padding-bottom:14px}
+.dots{display:flex;gap:5px}.dots i{width:6px;height:6px;border-radius:50%;background:#9bcce8}
+.panel-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0}
+.panel-stat{padding:14px;border-radius:13px;background:#ffffffb8}.panel-stat small{display:block;font-size:7px;color:#8aa0b8}.panel-stat b{display:block;font-size:22px;color:#34577d;margin-top:5px}
+.bars{height:170px;display:flex;align-items:end;gap:7px;padding:16px;border-radius:16px;background:linear-gradient(#eaf6ff,#f8fbff)}
+.bars i{flex:1;height:var(--h);border-radius:7px 7px 2px 2px;background:linear-gradient(180deg,#83d9e9,#6199df);min-width:8px}
+.panel-note{display:flex;justify-content:space-between;font-size:7px;color:#91a6bf;padding:13px 2px 0}
+.content-chapter{padding:100px 0;border-top:1px solid #ffffffaa}
+.inventory-shell{padding:28px;border:1px solid #d4e3f4;border-radius:24px;background:#ffffffb8;box-shadow:0 20px 60px #729bc51c}
+.inventory-top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:22px;color:#203c5d}.inventory-top strong{font-size:17px}.inventory-top small{font-size:9px;color:#8096b0;letter-spacing:.08em}
 .inventory-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
-.inventory-stat{padding:17px;border-radius:14px;background:#f3f7fb;border:1px solid #e0e9f2}
-.inventory-stat small{display:block;color:#71849b;font-size:10px;letter-spacing:.12em;text-transform:uppercase}
-.inventory-stat b{display:block;font:700 27px Manrope;color:#183452;margin-top:6px}
-.inventory-controls{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}
-.inventory-controls input,.inventory-controls select{min-height:44px;padding:10px 13px;border:1px solid #d8e3ee;border-radius:10px;background:#fff;color:#183452;min-width:170px}
-.inventory-table-wrap{overflow:auto;border:1px solid #e1e9f1;border-radius:13px}
-.inventory-table{width:100%;border-collapse:collapse;min-width:560px;text-align:left}
-.inventory-table th,.inventory-table td{padding:13px 15px;border-bottom:1px solid #e8eef4;font-size:12px}
-.inventory-table th{color:#71849b;background:#f7f9fc;font-size:10px;letter-spacing:.1em;text-transform:uppercase}
-.inventory-table td{color:#314860}.inventory-table tr:last-child td{border-bottom:0}
-.stock-status{display:inline-block;padding:5px 9px;border-radius:30px;font-size:10px;font-weight:700}
-.stock-status.in{background:#e4f7ef;color:#18794e}.stock-status.low{background:#fff4dc;color:#94600b}.stock-status.out{background:#fde8e8;color:#a33232}
-#inventory-empty{padding:22px;text-align:center;color:#71849b;font-size:13px}
-.about-band{padding:100px 0;background:#eaf2fa;color:#14253b}
-.about-band .kicker{color:#4d86b5}.about-band h2{color:#14253b}.about-band p{max-width:640px;color:#667990;line-height:1.9}
-.contact-form-wrap{max-width:760px;margin:42px auto 0;padding:30px;text-align:left;border:1px solid rgba(255,255,255,.4);border-radius:22px;background:rgba(255,255,255,.72);box-shadow:0 22px 60px rgba(18,47,77,.12);color:#172b43;backdrop-filter:blur(18px)}
-.contact-form-wrap label{display:block;margin:0 0 14px;font-size:12px;font-weight:700;color:#526981}
-.contact-form-wrap input:not([type=checkbox]),.contact-form-wrap select,.contact-form-wrap textarea{display:block;width:100%;margin-top:7px;padding:12px 13px;border:1px solid #d9e3ed;border-radius:10px;background:#fff;color:#172b43}
-.contact-form-wrap .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.contact-form-wrap .consent{display:flex;align-items:flex-start;gap:10px;font-weight:500}.contact-form-wrap .consent input{margin-top:3px}
-.contact-form-wrap .error{display:block;min-height:14px;color:#b42332;font-size:10px}.contact-form-wrap .count{display:block;text-align:right;color:#75869a;font-size:10px}
-.contact-form-wrap .feedback{min-height:22px;margin-top:12px;font-size:12px}.contact-form-wrap .feedback.success{color:#18794e}.contact-form-wrap .feedback.fail{color:#b42332}
-.contact-form-wrap .invalid{border-color:#c63b48!important}
-.contact-form-wrap .btn{cursor:pointer}.contact-form-wrap .btn:disabled{opacity:.6;cursor:wait}
-@media(max-width:650px){.inventory-stats{grid-template-columns:repeat(2,1fr)}.inventory-shell{padding:16px}.inventory-top{align-items:flex-start;flex-direction:column}.contact-form-wrap{padding:18px}.contact-form-wrap .form-row{grid-template-columns:1fr}}
+.inventory-stat{padding:16px;border:1px solid #dce8f5;border-radius:14px;background:#f3f8fd}.inventory-stat small{display:block;text-transform:uppercase;letter-spacing:.12em;font-size:8px;color:#8097b1}.inventory-stat b{display:block;font-size:23px;color:#274769;margin-top:6px}
+.inventory-controls{display:flex;gap:10px;margin-bottom:16px}.inventory-controls input,.inventory-controls select{min-width:0;padding:12px 14px;border:1px solid #d7e4f2;border-radius:10px;background:#fff;color:#294563;font:inherit;font-size:12px}.inventory-controls input{flex:1}
+.inventory-table-wrap{overflow-x:auto;border:1px solid #dce7f3;border-radius:13px}.inventory-table{width:100%;border-collapse:collapse;min-width:600px;font-size:11px}.inventory-table th,.inventory-table td{text-align:left;padding:14px 15px;border-bottom:1px solid #e4edf6}.inventory-table th{font-size:8px;text-transform:uppercase;letter-spacing:.12em;color:#8197b1;background:#f6f9fd}.inventory-table td{color:#496481}.stock-status{display:inline-block;padding:5px 9px;border-radius:20px;font-size:9px}.stock-status.in{background:#e2f6ee;color:#16815c}.stock-status.low{background:#fff2d8;color:#9b6500}.stock-status.out{background:#ffe7e7;color:#b33a3a}
+.process{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:34px}.process-item{border-top:1px solid #c9dff2;padding:24px 17px}.process-item small{font-size:8px;letter-spacing:.14em;color:#7898b8}.process-item h3{font-size:18px;color:#1c3858;margin:20px 0 8px}.process-item p{font-size:11px;line-height:1.8;color:#7c90aa;margin:0}
+@media(max-width:800px){.solution-layout{grid-template-columns:1fr;gap:30px}.inventory-stats{grid-template-columns:repeat(2,1fr)}.process{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.inventory-shell{padding:16px}.inventory-top{align-items:flex-start;flex-direction:column}.inventory-controls{flex-direction:column}.inventory-controls input,.inventory-controls select{width:100%}.process{grid-template-columns:1fr 1fr}.content-chapter{padding:70px 0}}
 
-</style></head><body>
+
+/* Site-wide motion language: restrained, consistent, and accessible */
+.motion-ready .motion-reveal{opacity:0;transform:translate3d(0,24px,0);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+.motion-ready .motion-reveal.is-visible{opacity:1;transform:translate3d(0,0,0)}
+.motion-ready .motion-reveal[data-motion-delay="1"]{transition-delay:.10s}
+.motion-ready .motion-reveal[data-motion-delay="2"]{transition-delay:.20s}
+.motion-ready .motion-reveal[data-motion-delay="3"]{transition-delay:.30s}
+.motion-ready .motion-reveal[data-motion-delay="4"]{transition-delay:.40s}
+.solution-window,.inventory-shell,.process-item,.card,.service-card,.contact-card{transition:transform .45s cubic-bezier(.2,.7,.2,1),box-shadow .45s ease,border-color .45s ease}
+.solution-window:hover{transform:translateY(-6px) rotate(-.6deg);box-shadow:0 30px 76px #4f89c42b}
+.inventory-stat{transition:transform .3s ease,background .3s ease,box-shadow .3s ease}
+.inventory-stat:hover{transform:translateY(-4px);background:#fff;box-shadow:0 12px 28px #6b98c322}
+.process-item:hover{transform:translateY(-5px);border-color:#69b8df}
+.card:hover{transform:translateY(-5px);box-shadow:0 18px 40px #6a9bc32a}
+.btn{transition:transform .25s ease,box-shadow .25s ease,filter .25s ease}
+.btn:hover{transform:translateY(-2px);box-shadow:0 12px 26px #4c91c344;filter:saturate(1.08)}
+@media(prefers-reduced-motion:reduce){.motion-ready .motion-reveal,.motion-ready .motion-reveal.is-visible{opacity:1;transform:none;transition:none}.solution-window,.inventory-stat,.process-item,.card,.btn{transition:none}}
+
+
+/* Terminal-style closing section inspired by the Angel project UI */
+.terminal-contact{padding:105px 0 110px;background:#030b14;color:#e6f6ff;position:relative;overflow:hidden}
+.terminal-contact:before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 72% 45%,rgba(0,137,201,.17),transparent 48%),linear-gradient(rgba(26,151,202,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(26,151,202,.035) 1px,transparent 1px);background-size:auto,34px 34px,34px 34px;pointer-events:none}
+.terminal-wrap{position:relative;display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(35px,7vw,100px);align-items:center}
+.terminal-intro .kicker{color:#5bc8e9}.terminal-intro h2{font-size:clamp(42px,5vw,66px);line-height:.98;letter-spacing:-.065em;color:#e8f7ff;margin:18px 0}.terminal-intro h2 span{color:#39bce9}.terminal-intro p{max-width:390px;color:#91aabd;font-size:13px;line-height:1.9}
+.terminal-meta{display:flex;align-items:center;gap:9px;margin-top:28px;font-size:8px;letter-spacing:.13em;color:#6f95ac}.terminal-meta i{width:3px;height:3px;border-radius:50%;background:#1ebee9}
+.terminal-pulse{width:6px;height:6px;border-radius:50%;background:#27e4b2;box-shadow:0 0 10px #27e4b2;animation:terminalPulse 2s ease-in-out infinite}
+.terminal-window{border:1px solid rgba(90,178,214,.23);border-radius:19px;overflow:hidden;background:#0b111b;box-shadow:0 25px 85px rgba(0,0,0,.35),0 0 50px rgba(0,145,206,.09);transform:translateY(0);transition:transform .4s ease,box-shadow .4s ease}
+.terminal-window:hover{transform:translateY(-5px);box-shadow:0 32px 95px rgba(0,0,0,.42),0 0 60px rgba(0,145,206,.15)}
+.terminal-bar{height:54px;padding:0 19px;display:flex;align-items:center;justify-content:space-between;background:#252a32;border-bottom:1px solid rgba(255,255,255,.06)}
+.terminal-language{display:flex;align-items:center;gap:10px;font-size:11px;color:#dbe7f4}.terminal-language strong{font-weight:600}.terminal-code-icon{font-size:12px;color:#b6c6d8}
+.terminal-actions{display:flex;align-items:center;gap:18px}.terminal-action-hint{font-size:8px;letter-spacing:.12em;color:#8093a6}
+.terminal-copy{display:flex;align-items:center;gap:7px;border:1px solid rgba(184,211,231,.18);border-radius:7px;background:rgba(255,255,255,.04);padding:7px 9px;color:#c5d6e4;font:inherit;font-size:9px;cursor:pointer;transition:background .2s,border-color .2s}.terminal-copy:hover{background:rgba(32,180,224,.13);border-color:rgba(32,180,224,.5)}.terminal-copy svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:1.6}
+.terminal-body{padding:26px 22px 23px;min-height:160px}.terminal-line{display:flex;align-items:center;gap:13px;margin:0 0 13px;font:12px/1.5 ui-monospace,SFMono-Regular,Consolas,monospace;white-space:nowrap;overflow-x:auto}.terminal-line-no{width:12px;color:#536779;font-size:10px}.terminal-prompt{color:#b58cf5}.terminal-line code{color:#e1e9f2}.terminal-line:nth-child(2) code{color:#c5a5f8}.terminal-line:nth-child(3) code{color:#9bd6f0}
+.terminal-output{margin:22px 0 0 25px;color:#7e9bad;font:10px ui-monospace,SFMono-Regular,Consolas,monospace}.terminal-ok{color:#28dca9;margin-right:8px}.terminal-output strong{color:#d8efff;font-weight:600}.terminal-cursor{display:inline-block;width:6px;height:12px;background:#23c9ed;vertical-align:-2px;margin-left:6px;animation:terminalBlink 1s steps(2,start) infinite}
+.terminal-foot{display:flex;justify-content:space-between;padding:12px 20px;border-top:1px solid rgba(138,184,211,.12);font-size:7px;letter-spacing:.16em;color:#647f94}
+@keyframes terminalBlink{to{visibility:hidden}}@keyframes terminalPulse{50%{opacity:.45;box-shadow:0 0 3px #27e4b2}}
+@media(max-width:760px){.terminal-contact{padding:75px 0}.terminal-wrap{grid-template-columns:1fr;gap:28px}.terminal-intro h2{font-size:clamp(40px,10vw,58px)}.terminal-meta{margin-top:18px}}
+@media(max-width:480px){.terminal-bar{padding:0 12px}.terminal-action-hint{display:none}.terminal-body{padding:21px 12px}.terminal-line{font-size:10px;gap:8px}.terminal-line-no{width:8px}.terminal-foot{padding:11px 12px;font-size:6px}}
+@media(prefers-reduced-motion:reduce){.terminal-pulse,.terminal-cursor{animation:none}.terminal-window{transition:none}}
+
+
+/* XoRa guided inquiry experience */
+.orbit-inquiry{background:radial-gradient(ellipse at 78% 46%,rgba(0,137,201,.20),transparent 48%),#030b14}
+.orbit-inquiry-wrap{display:grid;grid-template-columns:.78fr 1.22fr;gap:clamp(32px,6vw,82px);align-items:center}
+.orbit-inquiry-intro h2{font-size:clamp(42px,5vw,66px)}
+.orbit-assistant-note{display:flex;align-items:center;gap:13px;margin-top:36px;padding:15px 17px;border:1px solid rgba(62,179,220,.18);border-radius:13px;background:rgba(8,34,51,.55);color:#86aabd;font-size:10px;line-height:1.7;max-width:340px}
+.orbit-assistant-note strong{color:#d9f2ff;font-weight:600}.orbit-note-icon{font-size:20px;color:#1ac8ef}
+.orbit-chat{border:1px solid rgba(76,183,220,.28);border-radius:20px;overflow:hidden;background:linear-gradient(155deg,#0d1b29,#07111d 72%);box-shadow:0 28px 90px rgba(0,0,0,.38),0 0 55px rgba(0,157,211,.10);min-height:520px;display:flex;flex-direction:column}
+.orbit-chat-head{display:flex;align-items:center;gap:12px;padding:17px 20px;background:rgba(28,42,56,.9);border-bottom:1px solid rgba(119,178,205,.12)}
+.orbit-avatar{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;color:#19d7ff;font-size:20px;border:1px solid rgba(17,207,255,.5);background:radial-gradient(circle,#12496a,#071a2b);box-shadow:0 0 18px rgba(0,194,255,.15)}
+.orbit-chat-identity{display:flex;flex-direction:column;gap:4px}.orbit-chat-identity strong{font-size:12px;letter-spacing:.16em;color:#e4f7ff}.orbit-chat-identity small{font-size:7px;letter-spacing:.12em;color:#7798ad}.orbit-live-dot{display:inline-block;width:5px;height:5px;border-radius:50%;background:#28e9b4;box-shadow:0 0 8px #28e9b4;margin-left:5px}
+.orbit-chat-status{margin-left:auto;font-size:7px;letter-spacing:.13em;color:#6fb7d2;border:1px solid rgba(60,180,220,.25);padding:7px 9px;border-radius:20px}
+.orbit-progress{height:2px;background:#122b3d}.orbit-progress span{display:block;width:8%;height:100%;background:linear-gradient(90deg,#0789d1,#18dfff);transition:width .4s ease}
+.orbit-chat-body{padding:23px 22px 18px;flex:1;min-height:315px;max-height:390px;overflow:auto;scroll-behavior:smooth}
+.orbit-message{display:flex;gap:10px;margin:0 0 17px;animation:orbitMessageIn .35s ease both}.orbit-message.user{justify-content:flex-end}.orbit-message-avatar{flex:0 0 25px;width:25px;height:25px;border:1px solid rgba(17,207,255,.4);border-radius:50%;display:grid;place-items:center;color:#18d9ff;font-size:12px;background:#0c2b40}
+.orbit-bubble{max-width:85%;padding:12px 14px;border:1px solid rgba(88,170,202,.16);border-radius:4px 13px 13px 13px;background:rgba(17,39,56,.72);color:#c0d7e5;font-size:11px;line-height:1.75}.orbit-bubble small{font-size:7px;letter-spacing:.16em;color:#39c8ed}.orbit-bubble p{margin:5px 0 0}
+.orbit-message.user .orbit-bubble{border-color:rgba(27,169,216,.22);border-radius:13px 4px 13px 13px;background:rgba(9,74,105,.48);color:#e1f6ff}
+.orbit-choices{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 18px 35px;animation:orbitMessageIn .4s ease both}
+.orbit-choice{display:flex;justify-content:space-between;align-items:center;gap:8px;text-align:left;padding:11px 12px;border:1px solid rgba(70,163,199,.23);border-radius:9px;background:rgba(7,28,44,.75);color:#a9c8da;font:inherit;font-size:9px;cursor:pointer;transition:background .2s,border-color .2s,transform .2s}
+.orbit-choice span{color:#18c9ef}.orbit-choice:hover{background:rgba(9,79,111,.42);border-color:rgba(20,205,245,.6);transform:translateY(-2px)}
+.orbit-chat-compose{display:flex;gap:9px;padding:14px 17px;border-top:1px solid rgba(119,178,205,.12);background:rgba(5,16,27,.7)}
+.orbit-chat-compose input{flex:1;min-width:0;border:1px solid rgba(91,164,194,.2);border-radius:9px;background:#081725;color:#e4f7ff;padding:12px 13px;font:inherit;font-size:10px;outline:none}.orbit-chat-compose input:focus{border-color:rgba(17,202,244,.6);box-shadow:0 0 0 3px rgba(17,202,244,.07)}.orbit-chat-compose input::placeholder{color:#5f7d91}
+.orbit-chat-compose button{width:39px;height:39px;border:0;border-radius:9px;background:linear-gradient(135deg,#087fc2,#17c9e8);color:#fff;font-size:22px;cursor:pointer}.orbit-chat-compose button:disabled,.orbit-chat-compose input:disabled{opacity:.45;cursor:not-allowed}
+.orbit-chat-foot{display:flex;justify-content:space-between;gap:10px;padding:10px 18px;border-top:1px solid rgba(119,178,205,.09);font-size:7px;letter-spacing:.08em;color:#5d7b90}
+.orbit-chat-foot span:last-child{letter-spacing:0;text-align:right}
+.orbit-summary{margin:8px 0 18px 35px;padding:13px;border:1px solid rgba(29,190,225,.28);border-radius:10px;background:rgba(5,42,60,.55);color:#b8d7e6;font-size:10px;line-height:1.7}
+.orbit-summary strong{color:#e4f8ff}.orbit-summary ul{padding-left:17px;margin:8px 0}.orbit-summary li{margin:3px 0}
+@keyframes orbitMessageIn{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:800px){.orbit-inquiry-wrap{grid-template-columns:1fr;gap:30px}.orbit-inquiry-intro h2{font-size:clamp(40px,9vw,58px)}.orbit-chat{min-height:500px}}
+@media(max-width:480px){.orbit-chat-head{padding:14px}.orbit-chat-body{padding:18px 13px;min-height:320px}.orbit-choices{grid-template-columns:1fr;margin-left:0}.orbit-chat-foot{font-size:6px}.orbit-chat-status{font-size:6px;padding:6px}}
+@media(prefers-reduced-motion:reduce){.orbit-message,.orbit-choices{animation:none}.orbit-choice,.orbit-progress span{transition:none}}
+
+
+/* XoRa identity: orbital visual instead of N/Nexora logo */
+.orbit-inquiry-intro h2{font-family:Georgia,serif;font-weight:400;letter-spacing:-.045em}
+.orbit-inquiry-intro h2 span{font-style:italic;color:#42c9ed}
+.orbit-emblem{position:relative;width:210px;height:210px;margin:42px 0 12px 8px;border:1px solid rgba(26,192,235,.26);border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle,rgba(13,86,119,.28),rgba(2,15,27,.05) 68%);box-shadow:0 0 48px rgba(0,170,220,.08),inset 0 0 28px rgba(0,170,220,.08)}
+.orbit-emblem:before,.orbit-emblem:after{content:"";position:absolute;inset:12px;border:1px solid rgba(30,199,239,.55);border-radius:50%}
+.orbit-emblem:after{inset:27px;border-style:dashed;border-color:rgba(30,199,239,.32);animation:orbitEmblemSpin 34s linear infinite reverse}
+.emblem-ring{position:absolute;border:1px solid rgba(38,193,236,.6);border-radius:50%;width:90%;height:32%;filter:drop-shadow(0 0 5px rgba(0,190,240,.55))}
+.emblem-ring.ring-a{transform:rotate(35deg);animation:orbitEmblemSpin 17s linear infinite}
+.emblem-ring.ring-b{transform:rotate(-48deg);width:82%;height:38%;opacity:.7;animation:orbitEmblemSpin 23s linear infinite reverse}
+.emblem-ring.ring-c{transform:rotate(90deg);width:76%;height:30%;opacity:.45;animation:orbitEmblemSpin 29s linear infinite}
+.emblem-core{width:45px;height:45px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#baf6ff 0,#28c9f1 12%,#0876a7 42%,#041d31 75%);box-shadow:0 0 18px #00c9f2,0 0 50px rgba(0,180,230,.45);animation:orbitCorePulse 3.2s ease-in-out infinite}
+.emblem-particle{position:absolute;width:6px;height:6px;border-radius:50%;background:#b6f7ff;box-shadow:0 0 12px 3px #00bde9}
+.emblem-particle.particle-a{top:26px;right:45px}.emblem-particle.particle-b{bottom:35px;left:27px;width:4px;height:4px}
+.orbit-emblem-caption{font-size:7px;letter-spacing:.22em;color:#6e9bb2;margin-left:8px}
+.orbit-avatar,.orbit-message-avatar{background:radial-gradient(circle,#0b4967,#061625);border-color:rgba(23,204,244,.5)}
+.mini-orbit{position:relative;display:block;width:17px;height:17px;border:1px solid #28c9ee;border-radius:50%;box-shadow:0 0 9px rgba(0,200,245,.35)}
+.mini-orbit:before,.mini-orbit:after{content:"";position:absolute;inset:4px -5px;border:1px solid #31d3f2;border-radius:50%;transform:rotate(42deg)}
+.mini-orbit:after{transform:rotate(-42deg);opacity:.65}
+@keyframes orbitEmblemSpin{to{rotate:360deg}}@keyframes orbitCorePulse{50%{transform:scale(1.13);filter:brightness(1.2)}}
+@media(max-width:800px){.orbit-emblem{width:170px;height:170px;margin:24px auto 10px}.orbit-emblem-caption{text-align:center;margin:0}}
+@media(prefers-reduced-motion:reduce){.orbit-emblem:after,.emblem-ring,.emblem-core{animation:none}}
+
+
+/* Reuse the main XoRa visual beside the inquiry conversation */
+.orbit-center-clean .name{display:block;margin:0;color:#dff8ff;font-size:clamp(21px,2vw,30px);font-weight:700;letter-spacing:.18em}
+.orbit-center-clean .pill{margin-top:12px}
+.orbit-inquiry-visual{width:min(100%,340px);height:300px;margin:25px auto 0;overflow:visible}
+.orbit-inquiry-visual .orbit-core{width:270px;height:270px;max-width:85vw;max-height:85vw}
+.orbit-inquiry-visual .orbit-center{display:flex;flex-direction:column;align-items:center;justify-content:center}
+.orbit-inquiry-visual .orbit-base{bottom:-22px;font-size:6px;letter-spacing:.16em}
+.orbit-inquiry-visual .orbit-ring{opacity:.8}
+.orbit-inquiry-visual .orbit-path{opacity:.85}
+@media(max-width:800px){.orbit-inquiry-visual{height:245px;margin:12px auto 20px}.orbit-inquiry-visual .orbit-core{width:220px;height:220px}}
+@media(prefers-reduced-motion:reduce){.orbit-inquiry-visual .orbit-ring,.orbit-inquiry-visual .orbit-path{animation:none}}
+
+
+/* Connected Solutions: live-feeling data bars that rise and fall independently */
+.bars i{
+ transform-origin:bottom center;
+ animation:solutionBarPulse 2.8s cubic-bezier(.45,0,.55,1) infinite alternate;
+ will-change:transform;
+}
+.bars i:nth-child(1){animation-delay:-.2s}
+.bars i:nth-child(2){animation-delay:-1.1s}
+.bars i:nth-child(3){animation-delay:-.7s}
+.bars i:nth-child(4){animation-delay:-1.8s}
+.bars i:nth-child(5){animation-delay:-.4s}
+.bars i:nth-child(6){animation-delay:-1.4s}
+.bars i:nth-child(7){animation-delay:-.9s}
+.bars i:nth-child(8){animation-delay:-2.2s}
+.bars i:nth-child(9){animation-delay:-1.6s}
+.bars:hover i{animation-play-state:paused}
+@keyframes solutionBarPulse{
+  0%{transform:scaleY(.62);filter:saturate(.82);opacity:.82}
+  45%{transform:scaleY(1.04);filter:saturate(1.08);opacity:1}
+  100%{transform:scaleY(.78);filter:saturate(.95);opacity:.9}
+}
+@media(prefers-reduced-motion:reduce){.bars i{animation:none;transform:none;will-change:auto}}
+
+
+/* Interactive Preview: simulated operator typing + dashboard refresh */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.inventory-stat{position:relative;overflow:hidden}.inventory-stat b{display:block;transition:transform .3s,color .3s}.inventory-stat.kpi-refresh b{transform:translateY(-3px);color:#3699ce}
+.kpi-trend{display:block;margin-top:5px;font-size:8px;color:#169c7d}.kpi-trend i{font-style:normal}.kpi-trend.warn{color:#c28a36}
+.inventory-table-wrap{transition:box-shadow .35s ease}.inventory-shell.is-refreshing .inventory-table-wrap{box-shadow:0 0 0 2px rgba(76,174,219,.10)}
+}}
+}}
+@media(max-width:600px){}
+}
+
+
+/* Search-bar typing demo and live filtered KPI response */
+#inventory-search{caret-color:#269fd0;transition:border-color .2s,box-shadow .2s}
+#inventory-search.demo-typing{border-color:#62b7df;box-shadow:0 0 0 3px rgba(98,183,223,.13)}
+.inventory-stat.kpi-refresh{background:#fff;box-shadow:0 8px 22px rgba(76,145,190,.12)}
+
+
+/* XoRa Approach — four connected pillars */
+.orbit-approach-head{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(240px,.7fr);align-items:end;gap:42px;margin-bottom:42px}
+.orbit-approach-head .kicker{margin-bottom:16px}
+.orbit-approach-head h2{margin:0;font-size:clamp(38px,5.2vw,64px);line-height:.99;letter-spacing:-.065em;font-weight:650;color:#142b4c}
+.orbit-approach-head h2 span{color:#5b9bd4}
+.orbit-approach-head .chapter-intro{max-width:390px;margin:0 0 5px;color:#7189a8;font-size:13px;line-height:1.8}
+.orbit-pillars{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.orbit-pillar{position:relative;min-height:170px;padding:26px 25px 23px;border:1px solid rgba(255,255,255,.94);border-radius:21px;background:linear-gradient(145deg,rgba(255,255,255,.82),rgba(239,247,255,.56));box-shadow:0 14px 38px rgba(79,128,177,.075);overflow:hidden;transition:transform .35s ease,box-shadow .35s ease,border-color .35s ease}
+.orbit-pillar:before{content:"";position:absolute;inset:0 auto 0 0;width:3px;background:linear-gradient(180deg,#71c9e7,#5798d2);transform:scaleY(0);transform-origin:bottom;transition:transform .35s ease}
+.orbit-pillar:hover{transform:translateY(-6px);box-shadow:0 20px 42px rgba(79,128,177,.13);border-color:#c9e4f8}
+.orbit-pillar:hover:before{transform:scaleY(1)}
+.orbit-pillar-number{font-size:25px;line-height:1;color:#60b9df;font-weight:400;margin-bottom:19px}
+.orbit-pillar h3{margin:0 0 9px;color:#183252;font-size:15px;font-weight:600}
+.orbit-pillar p{margin:0;color:#7189a8;font-size:11px;line-height:1.75}
+@media(max-width:900px){.orbit-pillars{grid-template-columns:repeat(2,minmax(0,1fr))}.orbit-approach-head{gap:24px}}
+@media(max-width:620px){.orbit-approach-head{grid-template-columns:1fr;gap:14px;margin-bottom:25px}.orbit-approach-head h2{font-size:clamp(36px,10vw,48px)}.orbit-pillars{grid-template-columns:1fr;gap:11px}.orbit-pillar{min-height:0;padding:21px 22px}.orbit-pillar-number{margin-bottom:13px}}
+@media(prefers-reduced-motion:reduce){.orbit-pillar,.orbit-pillar:before{transition:none}.orbit-pillar:hover{transform:none}}
+
+
+/* Official Nexora logo lockup — embedded so the standalone mockup never has a broken asset path */
+.brand{display:flex;align-items:center;justify-content:center;gap:0;flex:0 0 auto}
+.brand img{display:block;width:74px;height:58px;object-fit:contain;object-position:center;background:#031321;border:1px solid rgba(49,190,239,.24);border-radius:7px;padding:2px}
+header .brand img{width:72px;height:56px}
+footer .brand img{width:78px;height:62px}
+@media(max-width:620px){header .brand img{width:64px;height:50px}footer .brand img{width:72px;height:57px}}
+
+
+/* Premium motion layer: restrained reveals, light sweeps and ambient depth */
+.orbit-approach-head,.orbit-pillar,.solution-section .chapter-head,.inventory-shell,.orbit-inquiry-intro,.orbit-chat{
+  will-change:transform,opacity;
+}
+.orbit-pillar{isolation:isolate}
+.orbit-pillar:after{
+  content:"";position:absolute;inset:-1px;pointer-events:none;z-index:0;
+  background:linear-gradient(112deg,transparent 22%,rgba(255,255,255,.48) 48%,transparent 72%);
+  transform:translateX(-125%);transition:transform .9s cubic-bezier(.2,.7,.2,1)
+}
+.orbit-pillar:hover:after{transform:translateX(125%)}
+.orbit-pillar>*{position:relative;z-index:1}
+.orbit-pillar:hover .orbit-pillar-number{transform:translateY(-2px);text-shadow:0 0 18px rgba(73,190,226,.3)}
+.orbit-pillar-number{transition:transform .35s ease,text-shadow .35s ease}
+.motion-reveal{opacity:0;transform:translateY(18px);transition:opacity .75s ease,transform .75s cubic-bezier(.2,.7,.2,1)}
+.motion-reveal.is-visible{opacity:1;transform:translateY(0)}
+.orbit-pillar.motion-reveal:nth-child(2){transition-delay:.08s}
+.orbit-pillar.motion-reveal:nth-child(3){transition-delay:.16s}
+.orbit-pillar.motion-reveal:nth-child(4){transition-delay:.24s}
+.orbit-approach-head.motion-reveal{transition-delay:.02s}
+.orbit-core{filter:drop-shadow(0 0 18px rgba(0,190,239,.08))}
+.orbit-chat{transition:box-shadow .45s ease,border-color .45s ease}
+.orbit-chat:focus-within{box-shadow:0 0 0 1px rgba(20,201,242,.2),0 18px 60px rgba(0,159,218,.12)}
+.nexora-sound-toggle{
+ display:inline-flex;align-items:center;gap:7px;margin-left:16px;padding:9px 12px;
+ border:1px solid rgba(93,157,207,.34);border-radius:999px;background:rgba(255,255,255,.48);
+ color:#54799f;font:600 8px/1 inherit;letter-spacing:.13em;cursor:pointer;
+ transition:background .25s ease,border-color .25s ease,color .25s ease,transform .25s ease;
+ white-space:nowrap
+}
+.nexora-sound-toggle:hover{transform:translateY(-2px);border-color:#68b9dc;background:rgba(255,255,255,.82);color:#1c4a70}
+.nexora-sound-toggle[aria-pressed="true"]{border-color:rgba(38,185,220,.75);background:rgba(15,76,108,.92);color:#dffaff;box-shadow:0 0 18px rgba(22,180,224,.16)}
+.sound-toggle-icon{font-size:14px;line-height:.8;color:#36a8d2}
+.nexora-sound-toggle[aria-pressed="true"] .sound-toggle-icon{color:#71e5ff;text-shadow:0 0 10px rgba(73,222,255,.8)}
+@media(max-width:760px){
+ .nexora-sound-toggle{margin-left:6px;padding:8px 9px}
+ .sound-toggle-label{font-size:7px}
+}
+@media(max-width:520px){
+ .nexora-sound-toggle{position:absolute;right:16px;top:calc(100% + 9px);z-index:20;background:rgba(4,24,39,.92);border-color:rgba(67,194,232,.4);color:#c8eafa}
+}
+@media(prefers-reduced-motion:reduce){
+ .motion-reveal{opacity:1;transform:none;transition:none}
+ .orbit-pillar:after{display:none}
+ .orbit-pillar-number{transition:none}
+}
+
+
+/* Interactive XoRa Approach cards */
+.orbit-pillars{perspective:1000px}
+.orbit-pillar{
+ --pointer-x:50%;--pointer-y:50%;--tilt-x:0deg;--tilt-y:0deg;
+ transform:perspective(900px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)) translateY(0);
+ transform-style:preserve-3d;
+ transition:transform .32s cubic-bezier(.2,.7,.2,1),box-shadow .32s ease,border-color .32s ease,background .32s ease;
+ cursor:default;outline:none;
+}
+.orbit-pillar:before{
+ content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:0;
+ background:radial-gradient(230px circle at var(--pointer-x) var(--pointer-y),rgba(83,190,231,.19),transparent 68%);
+ opacity:0;transition:opacity .3s ease
+}
+.orbit-pillar:after{
+ content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;pointer-events:none;
+ background:radial-gradient(180px circle at var(--pointer-x) var(--pointer-y),rgba(67,185,230,.85),rgba(255,255,255,.1) 48%,transparent 72%);
+ -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+ -webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity .3s ease
+}
+.orbit-pillar:hover,.orbit-pillar:focus-visible,.orbit-pillar.is-active{
+ box-shadow:0 20px 48px rgba(69,128,181,.16),0 0 26px rgba(69,181,226,.09);
+ border-color:rgba(104,194,235,.58);
+ background:linear-gradient(145deg,rgba(255,255,255,.94),rgba(237,247,255,.76));
+}
+.orbit-pillar:hover:before,.orbit-pillar:hover:after,
+.orbit-pillar:focus-visible:before,.orbit-pillar:focus-visible:after,
+.orbit-pillar.is-active:before,.orbit-pillar.is-active:after{opacity:1}
+.orbit-pillar>*{transform:translateZ(12px)}
+.orbit-pillar .orbit-pillar-number{transition:color .3s ease,text-shadow .3s ease,transform .3s ease}
+.orbit-pillar:hover .orbit-pillar-number,.orbit-pillar:focus-visible .orbit-pillar-number,.orbit-pillar.is-active .orbit-pillar-number{
+ color:#39afd9;text-shadow:0 0 18px rgba(57,175,217,.28);transform:translateZ(24px) translateY(-2px)
+}
+@media(hover:none),(pointer:coarse){
+ .orbit-pillar{transform:none!important}
+ .orbit-pillar:active{border-color:rgba(104,194,235,.7);box-shadow:0 12px 30px rgba(69,128,181,.14)}
+}
+@media(prefers-reduced-motion:reduce){
+ .orbit-pillar{transition:box-shadow .15s ease,border-color .15s ease,background .15s ease}
+ .orbit-pillar:before,.orbit-pillar:after{transition:none}
+}
+
+
+/* Responsive mobile navigation */
+.mobile-menu-toggle,.mobile-nav-cta{display:none}
+@media(max-width:760px){
+ header{height:64px;padding:0 14px;gap:10px}
+ header nav{
+  display:none;position:absolute;top:calc(100% + 1px);left:0;right:0;
+  padding:14px 16px 18px;background:rgba(4,20,34,.97);
+  border-bottom:1px solid rgba(50,190,230,.28);
+  box-shadow:0 18px 32px rgba(0,12,25,.28);
+  backdrop-filter:blur(22px);flex-direction:column;align-items:stretch;gap:0;
+  z-index:35
+ }
+ header.menu-open nav{display:flex}
+ header nav a{display:flex;align-items:center;min-height:46px;padding:0 10px;
+  color:#d8efff;text-decoration:none;border-bottom:1px solid rgba(102,190,222,.13);
+  font-size:13px}
+ header nav a:last-of-type{border-bottom:0}
+ .mobile-nav-cta{display:flex!important;align-items:center;justify-content:center;
+  min-height:42px;margin-top:12px;border-radius:999px;
+  background:linear-gradient(100deg,#168ebd,#45c4df);color:#031a2a!important;
+  font-weight:700;text-decoration:none}
+ .mobile-menu-toggle{
+  display:flex;flex:0 0 40px;width:40px;height:40px;padding:10px;
+  border:1px solid rgba(55,173,213,.4);border-radius:10px;
+  background:rgba(3,27,43,.92);align-items:center;justify-content:center;
+  flex-direction:column;gap:4px;cursor:pointer
+ }
+ .mobile-menu-toggle span{display:block;width:17px;height:2px;border-radius:2px;
+  background:#70dfff;transition:transform .22s ease,opacity .22s ease}
+ header.menu-open .mobile-menu-toggle span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+ header.menu-open .mobile-menu-toggle span:nth-child(2){opacity:0}
+ header.menu-open .mobile-menu-toggle span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+ header>.nav-cta{display:none}
+ .nexora-sound-toggle{position:static;margin:0 0 0 auto;padding:8px 9px;
+  background:rgba(4,24,39,.92);border-color:rgba(67,194,232,.4);color:#c8eafa}
+ .sound-toggle-label{font-size:7px}
+}
+@media(max-width:390px){
+ header{padding:0 10px;gap:7px}
+ header .brand img{width:58px;height:46px}
+ .nexora-sound-toggle{padding:7px 8px}
+ .sound-toggle-label{display:none}
+}
+@media(prefers-reduced-motion:reduce){
+ .mobile-menu-toggle span{transition:none}
+}
+
+
+.xora-consent{display:flex;align-items:flex-start;gap:9px;margin:14px 0;color:#9ab8cb;font-size:11px;line-height:1.55}
+.xora-consent input{flex:0 0 auto;margin-top:2px;accent-color:#18b9e5}
+.xora-submit{border:1px solid rgba(27,199,239,.55);border-radius:7px;padding:11px 18px;background:linear-gradient(100deg,#087eaa,#11b9dc);color:#e9fbff;font:600 11px inherit;cursor:pointer}
+.xora-submit:disabled{opacity:.65;cursor:wait}
+.xora-submit-status{margin:10px 0 0;color:#8fd9ec;font-size:10px;line-height:1.5}
+
+</style>
+</head>
+<body>
 <canvas id="ambient"></canvas><div class="progress" id="progress"></div>
-<header><a class="brand" href="#" aria-label="Nexora home"><img src="assets/nexora-logo-79fdc20d-c411-4925-9125-3f11d7f48e07.png" alt="NEXORA"></a><nav><a href="#experience">Experience</a><a href="#services">Services</a><a href="#solutions">Solutions</a><a href="#demo">Demo</a><a href="#approach">Approach</a><a href="#about">About</a></nav><a class="nav-cta" href="#contact">Let’s talk ↗</a></header>
-<main>
-<section class="hero" id="experience">
- <div class="hero-glow"></div><div class="hero-orbit"></div><canvas id="hero3d" aria-label="Animated 3D particle globe"></canvas>
- <div class="floating-label fl1">CONNECTED BY DESIGN<b>One fluid ecosystem</b></div><div class="floating-label fl2">BUILT FOR PEOPLE<b>Technology with purpose</b></div><div class="floating-label fl3">NEXORA / 01<b>Ideas into motion</b></div>
- <div class="hero-copy"><div class="kicker">NEXORA / MOTION EXPERIENCE</div><h1>Technology,<span>in motion.</span></h1><p>Discover a more connected way to support people, simplify workflows, and bring clarity to everyday business.</p><div class="hero-actions"><a class="btn" href="#services">Explore the experience ↗</a><a class="text-link" href="#solutions">See what moves ↓</a></div></div>
- <div class="hero-hint">Scroll to explore the motion ↓</div>
-</section>
-<section class="marquee"><div class="marquee-track">
- <div class="marquee-set"><div><strong>Technology that connects.</strong><small>IT SUPPORT · PEOPLE</small></div><span class="spark">✳</span><div><strong>Workflows that move.</strong><small>AUTOMATION · FLOW</small></div><span class="spark">✳</span><div><strong>Tools that simplify.</strong><small>BUSINESS TOOLS · PURPOSE</small></div><span class="spark">✳</span><div><strong>Insights that empower.</strong><small>REPORTING · CLARITY</small></div><span class="spark">✳</span></div>
- <div class="marquee-set" aria-hidden="true"><div><strong>Technology that connects.</strong><small>IT SUPPORT · PEOPLE</small></div><span class="spark">✳</span><div><strong>Workflows that move.</strong><small>AUTOMATION · FLOW</small></div><span class="spark">✳</span><div><strong>Tools that simplify.</strong><small>BUSINESS TOOLS · PURPOSE</small></div><span class="spark">✳</span><div><strong>Insights that empower.</strong><small>REPORTING · CLARITY</small></div><span class="spark">✳</span></div>
-</div></section>
-<section class="chapter globe-section" id="services">
- <div class="wrap chapter-inner"><div class="chapter-head reveal"><div><div class="kicker">01 / SERVICE UNIVERSE</div><h2>Capabilities,<br><span>in orbit.</span></h2></div><p class="chapter-intro">A connected constellation of practical services. Explore how each capability supports a smoother way of working.</p></div>
- <div class="globe-stage"><div class="globe-ring"></div><div class="globe-ring r2"></div><canvas id="globe"></canvas><div class="globe-caption">PEOPLE · TECHNOLOGY · PROCESS · PROGRESS</div></div>
+<header>
+  <a class="brand" href="#top" aria-label="Nexora Solutions home"><img src="assets/nexora-logo-79fdc20d-c411-4925-9125-3f11d7f48e07.png" alt="Nexora Solutions official logo"></a>
+  <nav id="site-navigation"><a href="#experience">Experience</a><a href="#services">Services</a><a href="#solutions">Solutions</a><a href="#experience">XoRa</a><a href="#about">About</a><a class="mobile-nav-cta" href="#contact">Let’s talk ↗</a></nav>
+  <button class="mobile-menu-toggle" id="mobile-menu-toggle" type="button" aria-expanded="false" aria-controls="site-navigation" aria-label="Open navigation menu">
+    <span></span><span></span><span></span>
+  </button>
+  <a class="nav-cta" href="#contact">Let’s talk ↗</a>
+<button class="nexora-sound-toggle" id="nexora-sound-toggle" type="button" aria-pressed="false" aria-label="Enable interface sound effects">
+    <span class="sound-toggle-icon" aria-hidden="true">♪</span><span class="sound-toggle-label">SOUND OFF</span>
+   </button>
+</header>
+<main id="top">
+<section class="orbit-section orbit-hero" id="experience">
+ <div class="orbit-wrap">
+  <div class="orbit-title"><div class="kicker">NEXORA INTELLIGENCE</div><p>A connected view of people, technology and process—designed to bring clarity to everyday business operations.</p></div>
+  <div class="orbit-layout">
+   <aside class="orbit-panel left">
+    <div class="orbit-panel-title"><b>⌁</b> System status</div>
+    <div class="orbit-status"><span>AI Assistant</span><span class="orbit-online">ONLINE</span></div>
+    <div class="orbit-status"><span>Inventory</span><span class="orbit-online">ONLINE</span></div>
+    <div class="orbit-status"><span>Enquiry</span><span class="orbit-online">ONLINE</span></div>
+    <div class="orbit-status"><span>Analytics</span><span class="orbit-online">ONLINE</span></div>
+    <div class="orbit-metric"><small>NEURAL ACTIVITY · VISUAL DEMO</small><strong><span id="orbitActivity">87</span><sup style="font-size:10px">%</sup></strong><div class="orbit-meter"><i id="orbitMeter"></i></div></div>
+   </aside>
+   <div class="orbit-visual" aria-label="Animated Nexora XoRa visualization">
+    <canvas id="nexoraOrbitParticles"></canvas>
+    <div class="orbit-core">
+     <div class="orbit-ring"></div><div class="orbit-ring r2"></div><div class="orbit-ring r3"></div><div class="orbit-ring r4"></div><div class="orbit-ring r5"></div>
+     <div class="orbit-path"></div><div class="orbit-path p2"></div><div class="orbit-path p3"></div>
+     <div class="orbit-center orbit-center-clean"><div class="name">XoRa</div><div class="pill">CONNECTED INTELLIGENCE</div></div>
+     <div class="orbit-base">PEOPLE · TECHNOLOGY · PROCESS · PROGRESS</div>
+    </div>
+   </div>
+   <aside class="orbit-panel right">
+    <div class="orbit-panel-title"><b>◇</b> Capabilities</div>
+    <div class="orbit-cap"><b>♙</b><span>People</span><em>›</em></div>
+    <div class="orbit-cap"><b>⌘</b><span>Technology</span><em>›</em></div>
+    <div class="orbit-cap"><b>⚙</b><span>Process</span><em>›</em></div>
+    <div class="orbit-cap"><b>▥</b><span>Progress</span><em>›</em></div>
+   </aside>
+  </div>
  </div>
 </section>
-<section class="chapter service-section">
- <div class="wrap chapter-inner"><div class="chapter-head reveal"><div><div class="kicker">02 / EXPLORE THE CAPABILITIES</div><h2>Move through<br><span>what we do.</span></h2></div><p class="chapter-intro">A rotating collection of Nexora capabilities. Pause the motion by hovering over the cards.</p></div>
- <div class="service-stage"><div class="service-wheel">
-  <article class="service-card"><span class="num">01 / SUPPORT</span><span class="glyph">⌁</span><div><h3>IT Support & Troubleshooting</h3><p>Responsive technical support that helps your people stay productive.</p></div></article>
-  <article class="service-card"><span class="num">02 / AUTOMATE</span><span class="glyph">↗</span><div><h3>Workflow Automation</h3><p>Connect repetitive steps, approvals, and processes into smoother journeys.</p></div></article>
-  <article class="service-card"><span class="num">03 / BUILD</span><span class="glyph">◇</span><div><h3>Custom Business Tools</h3><p>Purpose-built applications shaped around everyday business needs.</p></div></article>
-  <article class="service-card"><span class="num">04 / UNDERSTAND</span><span class="glyph">⌗</span><div><h3>Reporting & Dashboards</h3><p>Turn operational data into clearer views and confident decisions.</p></div></article>
-  <article class="service-card"><span class="num">05 / ENABLE</span><span class="glyph">✳</span><div><h3>Microsoft 365 Productivity</h3><p>Get more from the tools your teams already know and use.</p></div></article>
-  <article class="service-card"><span class="num">06 / DELIVER</span><span class="glyph">⟡</span><div><h3>Lightweight Applications</h3><p>Simple digital experiences shaped around real business needs.</p></div></article>
- </div></div><div class="service-tip">HOVER TO PAUSE · SCROLL TO CONTINUE</div>
- </div>
+<section class="marquee"><div class="marquee-track"><div class="marquee-set"><div><strong>Technology that connects.</strong><small>IT SUPPORT · PEOPLE</small></div><span class="spark">✳</span><div><strong>Workflows that move.</strong><small>AUTOMATION · FLOW</small></div><span class="spark">✳</span><div><strong>Tools that simplify.</strong><small>BUSINESS TOOLS · PURPOSE</small></div><span class="spark">✳</span><div><strong>Insights that empower.</strong><small>REPORTING · CLARITY</small></div></div><div class="marquee-set" aria-hidden="true"><div><strong>Technology that connects.</strong><small>IT SUPPORT · PEOPLE</small></div><span class="spark">✳</span><div><strong>Workflows that move.</strong><small>AUTOMATION · FLOW</small></div><span class="spark">✳</span><div><strong>Tools that simplify.</strong><small>BUSINESS TOOLS · PURPOSE</small></div><span class="spark">✳</span><div><strong>Insights that empower.</strong><small>REPORTING · CLARITY</small></div></div></section>
+<section class="chapter" id="services"><div class="wrap"><div class="chapter-head"><div><div class="kicker">02 / EXPLORE THE CAPABILITIES</div><h2>Move through<br><span>what we do.</span></h2></div><p class="chapter-intro">A rotating collection of Nexora capabilities. Pause the motion by hovering over the cards.</p></div>
+</div>
+<div class="service-stage"><div class="service-wheel">
+<article class="service-card"><span class="num">01 / SUPPORT</span><span class="glyph">⌁</span><div><h3>IT Support & Troubleshooting</h3><p>Responsive technical support that helps your people stay productive.</p></div></article>
+<article class="service-card"><span class="num">02 / AUTOMATE</span><span class="glyph">↗</span><div><h3>Workflow Automation</h3><p>Connect repetitive steps, approvals, and processes into smoother journeys.</p></div></article>
+<article class="service-card"><span class="num">03 / BUILD</span><span class="glyph">◇</span><div><h3>Custom Business Tools</h3><p>Purpose-built applications shaped around everyday business needs.</p></div></article>
+<article class="service-card"><span class="num">04 / UNDERSTAND</span><span class="glyph">⌗</span><div><h3>Reporting & Dashboards</h3><p>Turn operational data into clearer views and confident decisions.</p></div></article>
+<article class="service-card"><span class="num">05 / ENABLE</span><span class="glyph">✳</span><div><h3>Microsoft 365 Productivity</h3><p>Get more from the tools your teams already know and use.</p></div></article>
+<article class="service-card"><span class="num">06 / DELIVER</span><span class="glyph">⟡</span><div><h3>Lightweight Applications</h3><p>Simple digital experiences shaped around real business needs.</p></div></article>
+</div></div><div class="service-tip">HOVER TO PAUSE · SCROLL TO CONTINUE</div>
 </section>
+
 <section class="chapter solution-section" id="solutions">
- <div class="wrap chapter-inner solution-layout"><div class="solution-copy reveal"><div class="kicker">03 / CONNECTED SOLUTIONS</div><h2>One clearer<br><span>picture.</span></h2><p>Bring information, people, and everyday processes into one connected experience. Replace scattered steps with tools that make work easier to understand and manage.</p><a class="btn" href="#approach">Discover our approach ↗</a></div>
- <div class="solution-window reveal"><div class="solution-panel"><div class="panel-top"><span>NEXORA / OPERATIONS OVERVIEW</span><span class="dots"><i></i><i></i><i></i></span></div><div class="panel-stats"><div class="panel-stat"><small>WORKFLOWS</small><b>12</b></div><div class="panel-stat"><small>OPEN ITEMS</small><b>08</b></div><div class="panel-stat"><small>INSIGHTS</small><b>24</b></div></div><div class="bars"><i style="--h:38%;--i:0"></i><i style="--h:58%;--i:1"></i><i style="--h:47%;--i:2"></i><i style="--h:74%;--i:3"></i><i style="--h:62%;--i:4"></i><i style="--h:88%;--i:5"></i><i style="--h:70%;--i:6"></i><i style="--h:96%;--i:7"></i><i style="--h:80%;--i:8"></i></div><div class="panel-note"><span>Illustrative interface concept</span><span>Connected view ↗</span></div></div></div>
+ <div class="wrap solution-layout">
+  <div class="solution-copy">
+   <div class="kicker">03 / CONNECTED SOLUTIONS</div>
+   <h2>One clearer<br><span>picture.</span></h2>
+   <p>Bring information, people, and everyday processes into one connected experience. Replace scattered steps with tools that make work easier to understand and manage.</p>
+   <a class="btn" href="#approach">Discover our approach ↗</a>
+  </div>
+  <div class="solution-window">
+   <div class="solution-panel">
+    <div class="panel-top"><span>NEXORA / OPERATIONS OVERVIEW</span><span class="dots"><i></i><i></i><i></i></span></div>
+    <div class="panel-stats"><div class="panel-stat"><small>WORKFLOWS</small><b>12</b></div><div class="panel-stat"><small>OPEN ITEMS</small><b>08</b></div><div class="panel-stat"><small>INSIGHTS</small><b>24</b></div></div>
+    <div class="bars"><i style="--h:38%"></i><i style="--h:58%"></i><i style="--h:47%"></i><i style="--h:74%"></i><i style="--h:62%"></i><i style="--h:88%"></i><i style="--h:70%"></i><i style="--h:96%"></i><i style="--h:80%"></i></div>
+    <div class="panel-note"><span>Illustrative interface concept</span><span>Connected view ↗</span></div>
+   </div>
+  </div>
  </div>
 </section>
 
 <section class="content-chapter" id="demo">
- <div class="wrap chapter-inner">
-  <div class="chapter-head reveal"><div><div class="kicker">04 / INTERACTIVE PREVIEW</div><h2>Visibility,<br><span>at a glance.</span></h2></div><p class="chapter-intro">Explore a sample inventory dashboard with searchable records and category and stock-status filters. All figures and records are illustrative demonstration data.</p></div>
-  <div class="inventory-shell reveal">
-   <div class="inventory-top"><strong>Inventory overview</strong><small>DEMO DATA · NOT A LIVE INTEGRATION</small></div>
-   <div class="inventory-stats"><div class="inventory-stat"><small>Total items</small><b>48</b></div><div class="inventory-stat"><small>In stock</small><b>32</b></div><div class="inventory-stat"><small>Low stock</small><b>10</b></div><div class="inventory-stat"><small>Out of stock</small><b>6</b></div></div>
-   <div class="inventory-controls"><input id="inventory-search" type="search" placeholder="Search items…" aria-label="Search inventory"><select id="category-filter" aria-label="Filter category"><option value="all">All categories</option><option>IT Equipment</option><option>Furniture</option><option>Accessories</option></select><select id="status-filter" aria-label="Filter status"><option value="all">All statuses</option><option>In Stock</option><option>Low Stock</option><option>Out of Stock</option></select></div>
+ <div class="wrap">
+  <div class="chapter-head"><div><div class="kicker">04 / INTERACTIVE PREVIEW</div><h2>Visibility,<br><span>at a glance.</span></h2></div><p class="chapter-intro">Explore a sample inventory dashboard with searchable records and category and stock-status filters. All figures and records are illustrative demonstration data.</p></div>
+  <div class="inventory-shell">
+   <div class="inventory-top"><strong>Inventory overview</strong><small>SIMULATED LIVE DEMO · SAMPLE DATA</small></div>
+   <div class="inventory-stats"><div class="inventory-stat"><small>Total items</small><b data-kpi="total">14</b><span class="kpi-trend">↗ <i>2.1%</i></span></div><div class="inventory-stat"><small>In stock</small><b data-kpi="stock">8</b><span class="kpi-trend">↗ <i>1.4%</i></span></div><div class="inventory-stat"><small>Low stock</small><b data-kpi="low">4</b><span class="kpi-trend warn">↘ <i>0.8%</i></span></div><div class="inventory-stat"><small>Out of stock</small><b data-kpi="out">2</b><span class="kpi-trend warn">↘ <i>0.3%</i></span></div></div>
+   <div class="inventory-controls"><input id="inventory-search" type="search" placeholder="Search items..." aria-label="Search inventory"><select id="category-filter" aria-label="Filter category"><option value="all">All categories</option><option>IT Equipment</option><option>Furniture</option><option>Accessories</option></select><select id="status-filter" aria-label="Filter status"><option value="all">All statuses</option><option>In Stock</option><option>Low Stock</option><option>Out of Stock</option></select></div>
    <div class="inventory-table-wrap"><table class="inventory-table"><thead><tr><th>Item</th><th>Category</th><th>Status</th><th>Quantity</th><th>Value</th></tr></thead><tbody id="inventory-body"></tbody></table><p id="inventory-empty" hidden>No sample records match the filters.</p></div>
   </div>
  </div>
 </section>
-<section class="chapter" id="approach"><div class="wrap chapter-inner"><div class="chapter-head reveal"><div><div class="kicker">04 / THE WAY FORWARD</div><h2>From complexity<br><span>to clarity.</span></h2></div><p class="chapter-intro">A thoughtful process that starts with understanding your needs and ends with practical, useful outcomes.</p></div>
- <div class="process"><article class="process-item reveal"><small>01 / DISCOVER</small><h3>Understand</h3><p>Listen, explore the friction, and identify what matters most.</p></article><article class="process-item reveal"><small>02 / DESIGN</small><h3>Shape</h3><p>Map a practical solution around your people and processes.</p></article><article class="process-item reveal"><small>03 / DELIVER</small><h3>Build</h3><p>Create, refine, and validate a solution that works.</p></article><article class="process-item reveal"><small>04 / IMPROVE</small><h3>Evolve</h3><p>Keep learning and improving as your needs change.</p></article></div>
- </div></section>
-
-<section class="about-band" id="about"><div class="wrap chapter-inner"><div class="chapter-head reveal"><div><div class="kicker">ABOUT NEXORA SOLUTIONS</div><h2>Practical experience.<br><span>Thoughtful technology.</span></h2></div><p class="chapter-intro">Nexora Solutions helps small businesses work more efficiently with practical IT support, process improvement, business automation, reporting, and lightweight digital tools.</p></div><div class="reveal"><p>Solutions are designed to be clear, maintainable, and aligned with the way each business actually operates. The focus is on solving real operational needs without adding unnecessary complexity.</p></div></div></section>
-<section class="contact" id="contact"><div class="contact-content reveal"><div class="kicker">LET'S MOVE FORWARD</div><h2>Make work<br><span>flow forward.</span></h2><p>Tell us what your team is trying to improve. Let's explore a better way to make it happen.</p><a class="btn" href="mailto:nexora-solutions2026@outlook.ph?subject=Let's%20talk%20about%20Nexora">Start a conversation ↗</a></div>
-<div class="contact-form-wrap reveal">
- <form id="project-form" name="project-enquiry" method="POST" action="/" data-netlify="true" netlify-honeypot="bot-field" novalidate>
-  <input type="hidden" name="form-name" value="project-enquiry">
-  <input type="hidden" name="subject" value="Nexora Solutions | New Project Enquiry | Ref: %{submissionId}">
-  <p class="sr-only"><label>Do not fill out: <input name="bot-field"></label></p>
-  <div class="form-row">
-   <label>Your name *<input name="name" autocomplete="name" required minlength="2"><small class="error"></small></label>
-   <label>Your email *<input name="email" type="email" autocomplete="email" required><small class="error"></small></label>
+<section class="chapter orbit-approach" id="approach">
+ <div class="wrap">
+  <div class="orbit-approach-head">
+   <div>
+    <div class="kicker">THE XoRa APPROACH</div>
+    <h2>People. Technology.<br><span>Process. Progress.</span></h2>
+   </div>
+   <p class="chapter-intro">A clear way to think about how the right support, tools and workflows can move business forward.</p>
   </div>
-  <label>Project type *<select name="projectType" required><option value="">Select an option</option><option>Office IT Support</option><option>Business Workflow Automation</option><option>Custom Business Tool</option><option>Microsoft 365 Productivity</option><option>Reporting or Dashboard</option><option>Lightweight Application</option><option>Other</option></select><small class="error"></small></label>
-  <label>Tell us more *<textarea name="message" rows="5" minlength="20" maxlength="500" required></textarea><small class="count"><b id="count">0</b>/500</small><small class="error"></small></label>
-  <label class="consent"><input name="consent" type="checkbox" required><span>I agree that my information may be used to respond to this enquiry.</span></label>
-  <button class="btn" type="submit">Send enquiry →</button><div id="feedback" class="feedback" role="status" aria-live="polite"></div>
- </form>
-</div></section>
-</main><footer><a class="footbrand" href="#"><img src="assets/nexora-logo-79fdc20d-c411-4925-9125-3f11d7f48e07.png" alt="NEXORA"></a><span>Technology · Workflows · Clarity</span><span>Technology · Workflows · Clarity</span></footer>
+  <div class="orbit-pillars">
+   <article class="orbit-pillar" tabindex="0" role="group" aria-label="Interactive pillar: People"><div class="orbit-pillar-number">01</div><h3>People</h3><p>Start with the people doing the work and the outcomes they need.</p></article>
+   <article class="orbit-pillar" tabindex="0" role="group" aria-label="Interactive pillar: Technology"><div class="orbit-pillar-number">02</div><h3>Technology</h3><p>Choose useful, maintainable tools that fit the environment.</p></article>
+   <article class="orbit-pillar" tabindex="0" role="group" aria-label="Interactive pillar: Process"><div class="orbit-pillar-number">03</div><h3>Process</h3><p>Make everyday work clearer, simpler and more consistent.</p></article>
+   <article class="orbit-pillar" tabindex="0" role="group" aria-label="Interactive pillar: Progress"><div class="orbit-pillar-number">04</div><h3>Progress</h3><p>Keep improving through practical changes and measurable outcomes.</p></article>
+  </div>
+ </div>
+</section>
+<section class="chapter" id="about"><div class="wrap"><div class="kicker">ABOUT NEXORA</div><h2>Thoughtful technology.<br><span>Practical outcomes.</span></h2><p class="chapter-intro">Nexora helps businesses explore practical ways to improve support, simplify workflows and make better use of technology—without adding unnecessary complexity.</p></div></section>
+<section class="contact terminal-contact orbit-inquiry" id="contact">
+ <div class="wrap orbit-inquiry-wrap">
+  <div class="terminal-intro orbit-inquiry-intro">
+   <div class="kicker">A MORE PERSONAL WAY TO CONNECT</div>
+   <h2>Meet <span>XoRa.</span></h2>
+   <p>Your digital inquiry companion. Tell XoRa what you need, explore possible solutions, and prepare your request through a simple conversation.</p>
+   <div class="terminal-meta"><span class="terminal-pulse"></span> YOUR INQUIRY COMPANION <i></i> READY TO HELP</div>
+   <div class="orbit-visual orbit-inquiry-visual" aria-label="XoRa animated inquiry visualization">
+    <div class="orbit-core">
+     <div class="orbit-ring"></div><div class="orbit-ring r2"></div><div class="orbit-ring r3"></div><div class="orbit-ring r4"></div><div class="orbit-ring r5"></div>
+     <div class="orbit-path"></div><div class="orbit-path p2"></div><div class="orbit-path p3"></div>
+     <div class="orbit-center orbit-center-clean" aria-hidden="true"></div>
+     <div class="orbit-base">LISTENING · UNDERSTANDING · CONNECTING</div>
+    </div>
+   </div>
+  </div>
+  <div class="orbit-chat" aria-label="XoRa inquiry assistant">
+   <div class="orbit-chat-head">
+    <div class="orbit-avatar"><span class="mini-orbit"></span></div>
+    <div class="orbit-chat-identity"><strong>XoRa</strong><small>INQUIRY COMPANION <span class="orbit-live-dot"></span></small></div>
+    <div class="orbit-chat-status">GUIDED INQUIRY</div>
+   </div>
+   <div class="orbit-progress"><span id="orbitProgress"></span></div>
+   <div class="orbit-chat-body" id="orbitChatBody" aria-live="polite">
+    <div class="orbit-message assistant"><span class="orbit-message-avatar"><span class="mini-orbit"></span></span><div class="orbit-bubble"><small>XoRa</small><p>Hello! I'm XoRa. I can help you explore services, understand what you need, and prepare an inquiry. What would you like help with today?</p></div></div>
+    <div class="orbit-choices" id="orbitChoices">
+     <button type="button" class="orbit-choice" data-value="IT support">IT support & troubleshooting <span>↗</span></button>
+     <button type="button" class="orbit-choice" data-value="Workflow automation">Workflow automation <span>↗</span></button>
+     <button type="button" class="orbit-choice" data-value="Custom business tools">Custom business tools <span>↗</span></button>
+     <button type="button" class="orbit-choice" data-value="Reporting and dashboards">Reporting & dashboards <span>↗</span></button>
+     <button type="button" class="orbit-choice" data-value="Microsoft 365">Microsoft 365 productivity <span>↗</span></button>
+     <button type="button" class="orbit-choice" data-value="Something else">Something else <span>↗</span></button>
+    </div>
+   </div>
+   <form class="orbit-chat-compose" id="orbitChatForm">
+    <input id="orbitChatInput" type="text" placeholder="Type your answer to XoRa..." autocomplete="off" aria-label="Your response" disabled>
+    <button type="submit" id="orbitSend" disabled aria-label="Send message">↑</button>
+   </form>
+   <div class="orbit-chat-foot"><span>XoRa · INQUIRY SESSION</span><span>Your details are used to respond to your inquiry.</span></div>
+  </div>
+ </div>
+</section>
+</main>
+<footer><a class="brand" href="#top" aria-label="Nexora Solutions home"><img src="assets/nexora-logo-79fdc20d-c411-4925-9125-3f11d7f48e07.png" alt="Nexora Solutions official logo"></a><span>PEOPLE · TECHNOLOGY · PROCESS · PROGRESS</span><span>© NEXORA SOLUTIONS</span></footer>
 <script>
-(()=>{
- const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
- const progress=document.getElementById('progress');
- function scrollUpdate(){const max=document.documentElement.scrollHeight-innerHeight;progress.style.width=(max?scrollY/max*100:0)+'%'}addEventListener('scroll',scrollUpdate,{passive:true});scrollUpdate();
- const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target)}}),{threshold:.12});document.querySelectorAll('.reveal').forEach(e=>io.observe(e));
- // Ambient floating particles across the complete page.
- const ac=document.getElementById('ambient'),a=ac.getContext('2d');let aw,ah,particles=[];
- function resizeAmbient(){const d=Math.min(devicePixelRatio||1,1.5);aw=innerWidth;ah=innerHeight;ac.width=aw*d;ac.height=ah*d;a.setTransform(d,0,0,d,0,0);particles=Array.from({length:Math.min(75,Math.floor(aw/17))},()=>({x:Math.random()*aw,y:Math.random()*ah,r:.4+Math.random()*1.4,vx:(Math.random()-.5)*.18,vy:(Math.random()-.5)*.16}))}resizeAmbient();addEventListener('resize',resizeAmbient);
- function ambient(){if(!reduce){a.clearRect(0,0,aw,ah);for(const p of particles){p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=aw;if(p.x>aw)p.x=0;if(p.y<0)p.y=ah;if(p.y>ah)p.y=0;a.beginPath();a.arc(p.x,p.y,p.r,0,Math.PI*2);a.fillStyle='rgba(105,174,220,.35)';a.fill()}}requestAnimationFrame(ambient)}ambient();
- // Hero point-cloud globe: pointer-responsive rotation.
- function particleGlobe(canvasId,count,radius){const cv=document.getElementById(canvasId),c=cv.getContext('2d');let w,h,t=0,mx=0,my=0,pts=[];
- function size(){const d=Math.min(devicePixelRatio||1,2);w=cv.clientWidth;h=cv.clientHeight;cv.width=w*d;cv.height=h*d;c.setTransform(d,0,0,d,0,0)}
- size();addEventListener('resize',size);cv.addEventListener('pointermove',e=>{const r=cv.getBoundingClientRect();mx=(e.clientX-r.left)/r.width-.5;my=(e.clientY-r.top)/r.height-.5});
- for(let i=0;i<count;i++){const y=1-2*(i+.5)/count,rr=Math.sqrt(1-y*y),ang=Math.PI*(3-Math.sqrt(5))*i;pts.push({x:Math.cos(ang)*rr,y,z:Math.sin(ang)*rr,seed:Math.random()*6.28})}
- function draw(){if(!reduce)t+=.006;c.clearRect(0,0,w,h);const cx=w/2,cy=h/2,R=Math.min(w,h)*radius,rot=t*.45+mx*.4,rx=my*.25,projected=[];
- for(const p of pts){let x=p.x*Math.cos(rot)-p.z*Math.sin(rot),z=p.x*Math.sin(rot)+p.z*Math.cos(rot),y=p.y*Math.cos(rx)-z*Math.sin(rx);z=p.y*Math.sin(rx)+z*Math.cos(rx);const wave=1+Math.sin(p.seed+t*1.8)*.018,k=3.2/(3.2+z*.55);projected.push({x:cx+x*R*k*wave,y:cy+y*R*k*wave,z})}
- // connect nearby sample points to create a delicate net
- for(let i=0;i<projected.length;i+=4){for(let j=i+1;j<Math.min(i+7,projected.length);j+=2){const p=projected[i],q=projected[j],dist=Math.hypot(p.x-q.x,p.y-q.y);if(dist<R*.2){c.beginPath();c.moveTo(p.x,p.y);c.lineTo(q.x,q.y);c.strokeStyle=`rgba(108,177,224,${.045+(p.z+1)*.035})`;c.lineWidth=.65;c.stroke()}}}
- for(const p of projected){const depth=(p.z+1)/2,r=.5+depth*1.35;c.beginPath();c.arc(p.x,p.y,r,0,Math.PI*2);c.fillStyle=`rgba(${Math.round(125+100*depth)},${Math.round(190+45*depth)},255,${.24+depth*.65})`;c.shadowBlur=depth*9;c.shadowColor='#9de8ff';c.fill();c.shadowBlur=0}
- // rotating luminous orbit arcs
- for(let k=0;k<3;k++){c.beginPath();c.ellipse(cx,cy,R*(1.15+k*.1),R*(.28+k*.055),-.35+k*.38+t*.1,0,Math.PI*2);c.strokeStyle=`rgba(255,255,255,${.32-k*.07})`;c.lineWidth=1;c.stroke()}
- if(!reduce)requestAnimationFrame(draw)}requestAnimationFrame(draw)}
- particleGlobe('hero3d',1050,.63);particleGlobe('globe',760,.44);
-})();
-
- // Nexora interactive inventory sample.
- const inventoryRows=[
-  {item:"Laptop",category:"IT Equipment",status:"In Stock",quantity:12,value:8400},
-  {item:"Monitor",category:"IT Equipment",status:"Low Stock",quantity:3,value:900},
-  {item:"Office Chair",category:"Furniture",status:"In Stock",quantity:8,value:1200},
-  {item:"Printer",category:"IT Equipment",status:"Out of Stock",quantity:0,value:0},
-  {item:"USB-C Cable",category:"Accessories",status:"In Stock",quantity:25,value:375},
-  {item:"Wireless Mouse",category:"Accessories",status:"Low Stock",quantity:4,value:180},
-  {item:"Standing Desk",category:"Furniture",status:"In Stock",quantity:5,value:2250},
-  {item:"Keyboard",category:"Accessories",status:"Out of Stock",quantity:0,value:0}
- ];
- const invSearch=document.getElementById('inventory-search'),invCategory=document.getElementById('category-filter'),invStatus=document.getElementById('status-filter'),invBody=document.getElementById('inventory-body'),invEmpty=document.getElementById('inventory-empty');
+(()=>{const c=document.getElementById('orbitParticles'),x=c.getContext('2d');let w,h,points=[];function size(){const r=c.getBoundingClientRect(),d=Math.min(devicePixelRatio||1,2);w=r.width;h=r.height;c.width=w*d;c.height=h*d;x.setTransform(d,0,0,d,0,0);points=Array.from({length:440},()=>{let a=Math.random()*Math.PI*2,rad=Math.sqrt(Math.random())*.39;return{a,rad,s:.4+Math.random()*1.2,p:Math.random()*6.28}})}function draw(t){x.clearRect(0,0,w,h);let cx=w/2,cy=h/2,sc=Math.min(w,h),rot=t*.00011;points.forEach(p=>{let a=p.a+rot,r=p.rad*(.96+.035*Math.sin(t*.001+p.p)),xx=cx+Math.cos(a)*r*sc*1.4,yy=cy+Math.sin(a)*r*sc*1.4,alpha=.25+.45*(.5+.5*Math.sin(t*.002+p.p));x.fillStyle=`rgba(73,184,242,${alpha})`;x.beginPath();x.arc(xx,yy,p.s,0,Math.PI*2);x.fill()});requestAnimationFrame(draw)}new ResizeObserver(size).observe(c);size();requestAnimationFrame(draw);const progress=document.getElementById('progress');addEventListener('scroll',()=>{let max=document.documentElement.scrollHeight-innerHeight;progress.style.width=(max>0?scrollY/max*100:0)+'%'},{passive:true});})();
+</script>
+<script>
+(()=>{const c=document.getElementById('nexoraOrbitParticles');if(!c)return;const x=c.getContext('2d');let w=0,h=0,pts=[];function size(){const r=c.getBoundingClientRect(),d=Math.min(devicePixelRatio||1,2);w=r.width;h=r.height;c.width=w*d;c.height=h*d;x.setTransform(d,0,0,d,0,0);pts=Array.from({length:390},()=>({a:Math.random()*Math.PI*2,r:Math.sqrt(Math.random())*.43,s:.35+Math.random()*1.1,p:Math.random()*6.28}))}function draw(t){x.clearRect(0,0,w,h);const cx=w/2,cy=h/2,sc=Math.min(w,h),rot=t*.0001;pts.forEach(p=>{const a=p.a+rot,r=p.r*(.98+.025*Math.sin(t*.001+p.p)),xx=cx+Math.cos(a)*r*sc*1.35,yy=cy+Math.sin(a)*r*sc*1.35;x.fillStyle=`rgba(36,197,246,${.22+.5*(.5+.5*Math.sin(t*.002+p.p))})`;x.beginPath();x.arc(xx,yy,p.s,0,Math.PI*2);x.fill()});requestAnimationFrame(draw)}new ResizeObserver(size).observe(c);size();requestAnimationFrame(draw);setInterval(()=>{const n=82+Math.floor(Math.random()*15);const a=document.getElementById('orbitActivity'),m=document.getElementById('orbitMeter');if(a)a.textContent=n;if(m)m.style.width=n+'%'},1900)})();
+</script>
+<script>
+(()=> {
+ const rows=[
+ {item:'Laptop',category:'IT Equipment',status:'In Stock',quantity:12,value:8400},
+ {item:'Monitor',category:'IT Equipment',status:'Low Stock',quantity:3,value:900},
+ {item:'Office Chair',category:'Furniture',status:'In Stock',quantity:8,value:1200},
+ {item:'Printer',category:'IT Equipment',status:'Out of Stock',quantity:0,value:0},
+ {item:'USB-C Cable',category:'Accessories',status:'In Stock',quantity:25,value:375},
+ {item:'Wireless Mouse',category:'Accessories',status:'Low Stock',quantity:4,value:180},
+ {item:'Standing Desk',category:'Furniture',status:'In Stock',quantity:5,value:2250},
+ {item:'Keyboard',category:'Accessories',status:'Out of Stock',quantity:0,value:0},
+ {item:'Webcam',category:'IT Equipment',status:'In Stock',quantity:9,value:675},
+ {item:'Headset',category:'Accessories',status:'Low Stock',quantity:2,value:160},
+ {item:'Docking Station',category:'IT Equipment',status:'In Stock',quantity:6,value:1080},
+ {item:'Laptop Stand',category:'Accessories',status:'In Stock',quantity:11,value:330},
+ {item:'HDMI Cable',category:'Accessories',status:'In Stock',quantity:18,value:144},
+ {item:'External SSD',category:'IT Equipment',status:'Low Stock',quantity:3,value:450}
+];
+ const s=document.getElementById('inventory-search'),c=document.getElementById('category-filter'),t=document.getElementById('status-filter'),b=document.getElementById('inventory-body'),e=document.getElementById('inventory-empty');
+ if(!s||!c||!t||!b)return;
  const money=new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0});
- function renderInventory(){
-  const q=invSearch.value.toLowerCase().trim();
-  const rows=inventoryRows.filter(r=>(r.item.toLowerCase().includes(q)||r.category.toLowerCase().includes(q))&&(invCategory.value==='all'||r.category===invCategory.value)&&(invStatus.value==='all'||r.status===invStatus.value));
-  invBody.innerHTML=rows.map(r=>{const cls=r.status==='In Stock'?'in':r.status==='Low Stock'?'low':'out';return '<tr><td>'+r.item+'</td><td>'+r.category+'</td><td><span class="stock-status '+cls+'">'+r.status+'</span></td><td>'+r.quantity+'</td><td>'+money.format(r.value)+'</td></tr>'}).join('');
-  invEmpty.hidden=rows.length>0;
+ const kpiEls={total:document.querySelector('[data-kpi="total"]'),stock:document.querySelector('[data-kpi="stock"]'),low:document.querySelector('[data-kpi="low"]'),out:document.querySelector('[data-kpi="out"]')};
+ function updateKpis(filtered){
+  const counts={total:filtered.length,stock:filtered.filter(r=>r.status==='In Stock').length,low:filtered.filter(r=>r.status==='Low Stock').length,out:filtered.filter(r=>r.status==='Out of Stock').length};
+  Object.entries(counts).forEach(([key,val])=>{const el=kpiEls[key];if(!el)return;el.textContent=val;const card=el.closest('.inventory-stat');if(card){card.classList.add('kpi-refresh');setTimeout(()=>card.classList.remove('kpi-refresh'),350)}});
  }
- [invSearch,invCategory,invStatus].forEach(el=>el.addEventListener('input',renderInventory));renderInventory();
- // Netlify enquiry form: preserve native Netlify Forms detection and POST submission.
- const enquiry=document.getElementById('project-form');
- if(enquiry){
-  const feedback=document.getElementById('feedback'),message=enquiry.elements.message,count=document.getElementById('count');
-  message.addEventListener('input',()=>count.textContent=message.value.length);
-  function validateField(field){
-   const error=field.closest('label')?.querySelector('.error'),valid=field.checkValidity();
-   field.classList.toggle('invalid',!valid);field.setAttribute('aria-invalid',String(!valid));
-   if(error)error.textContent=valid?'':field.validity.valueMissing?'This field is required.':field.validity.typeMismatch?'Enter a valid email address':'Please check this field.';
-   return valid;
+ function render(){
+  const q=s.value.toLowerCase().trim(),filtered=rows.filter(r=>(r.item.toLowerCase().includes(q)||r.category.toLowerCase().includes(q))&&(c.value==='all'||r.category===c.value)&&(t.value==='all'||r.status===t.value));
+  b.innerHTML=filtered.map(r=>{const cl=r.status==='In Stock'?'in':r.status==='Low Stock'?'low':'out';return `<tr><td>${r.item}</td><td>${r.category}</td><td><span class="stock-status ${cl}">${r.status}</span></td><td>${r.quantity}</td><td>${money.format(r.value)}</td></tr>`}).join('');
+  if(e)e.hidden=filtered.length>0;
+  updateKpis(filtered);
+ }
+ [s,c,t].forEach(el=>el.addEventListener('input',render));
+ render();
+ window.nexoraInventoryDemo={render,reset:()=>{s.value='';c.value='all';t.value='all';render()}};
+})();
+</script>
+<script>
+(()=> {
+ const reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+ const targets=[...document.querySelectorAll(
+  '#services .chapter-head, #services .service-stage, #services .service-tip,'+
+  '#solutions .solution-copy, #solutions .solution-window,'+
+  '#demo .chapter-head, #demo .inventory-shell,'+
+  '#approach .chapter-head, #approach .process-item,'+
+  '#about .chapter-head, #about .about-content, #contact .contact-copy, #contact .contact-card'
+ )];
+ if(reduce){targets.forEach(el=>el.classList.add('is-visible'));return;}
+ document.documentElement.classList.add('motion-ready');
+ targets.forEach((el,i)=>{el.classList.add('motion-reveal');el.dataset.motionDelay=String((i%4)+1)});
+ if(!('IntersectionObserver' in window)){targets.forEach(el=>el.classList.add('is-visible'));return;}
+ const observer=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('is-visible');observer.unobserve(entry.target)}});
+ },{threshold:.12,rootMargin:'0px 0px -40px 0px'});
+ targets.forEach(el=>observer.observe(el));
+})();
+</script>
+<script>
+(()=> {
+ const body=document.getElementById('orbitChatBody'),choices=document.getElementById('orbitChoices'),form=document.getElementById('orbitChatForm'),input=document.getElementById('orbitChatInput'),send=document.getElementById('orbitSend'),progress=document.getElementById('orbitProgress');
+ if(!body||!choices||!form||!input||!send)return;
+ const state={step:0,service:'',details:'',name:'',email:'',company:''};
+ const prompts=[
+  {key:'details',question:'Thanks. Briefly describe what you would like to improve or what problem you are trying to solve.',placeholder:'Describe your needs...',type:'text'},
+  {key:'company',question:'Got it. What company or organization are you contacting us from? You can also type “Not applicable”.',placeholder:'Company or organization...',type:'text'},
+  {key:'name',question:'Who should our team address the inquiry to?',placeholder:'Your name...',type:'text'},
+  {key:'email',question:'What email address can the Nexora team use to follow up?',placeholder:'you@company.com',type:'email'}
+ ];
+ function addMessage(text,who='assistant'){
+  const row=document.createElement('div');row.className='orbit-message '+who;
+  if(who==='assistant'){const av=document.createElement('span');av.className='orbit-message-avatar';av.innerHTML='<span class="mini-orbit"></span>';row.appendChild(av)}
+  const bubble=document.createElement('div');bubble.className='orbit-bubble';
+  if(who==='assistant'){const tag=document.createElement('small');tag.textContent='XoRa';bubble.appendChild(tag)}
+  const p=document.createElement('p');p.textContent=text;bubble.appendChild(p);row.appendChild(bubble);body.appendChild(row);body.scrollTop=body.scrollHeight;
+ }
+ function setProgress(){progress.style.width=(Math.min(100,8+state.step*19))+'%'}
+ function askNext(){
+  choices.innerHTML='';
+  if(state.step<prompts.length){
+   const p=prompts[state.step];addMessage(p.question);input.disabled=false;send.disabled=false;input.type=p.type;input.placeholder=p.placeholder;input.focus();
+  }else showSummary();
+  setProgress();
+ }
+ function choose(value){state.service=value;addMessage(value,'user');state.step=0;askNext()}
+ choices.addEventListener('click',e=>{const btn=e.target.closest('[data-value]');if(btn&&!state.service)choose(btn.dataset.value)});
+ function showSummary(){
+  input.disabled=true;send.disabled=true;input.placeholder='Inquiry details collected';setProgress();
+  const box=document.createElement('div');box.className='orbit-summary';
+  const title=document.createElement('strong');title.textContent='INQUIRY SUMMARY';box.appendChild(title);
+  const ul=document.createElement('ul');
+  [['Service',state.service],['Request',state.details],['Organization',state.company],['Name',state.name],['Email',state.email]].forEach(([k,v])=>{const li=document.createElement('li');li.textContent=k+': '+v;ul.appendChild(li)});
+  box.appendChild(ul);
+  const consent=document.createElement('label');consent.className='xora-consent';
+  const check=document.createElement('input');check.type='checkbox';check.id='xoraConsent';
+  const copy=document.createElement('span');copy.textContent='I agree that Nexora Solutions may use these details to respond to my inquiry.';
+  consent.append(check,copy);box.appendChild(consent);
+  const submit=document.createElement('button');submit.type='button';submit.className='xora-submit';submit.textContent='Submit inquiry';
+  submit.addEventListener('click',()=>submitInquiry(submit,check,box));box.appendChild(submit);
+  const status=document.createElement('p');status.className='xora-submit-status';status.setAttribute('role','status');status.setAttribute('aria-live','polite');box.appendChild(status);
+  body.appendChild(box);body.scrollTop=body.scrollHeight;
+  addMessage('Please review your details. When you are ready, confirm the consent checkbox and submit your inquiry to the Nexora team.');
+ }
+ async function submitInquiry(button,consent,box){
+  const status=box.querySelector('.xora-submit-status');
+  if(!consent.checked){status.textContent='Please confirm your consent before submitting.';consent.focus();return}
+  button.disabled=true;button.textContent='Sending inquiry…';status.textContent='Securely sending your inquiry…';
+  const data=new URLSearchParams();
+  data.set('form-name','project-enquiry');
+  data.set('name',state.name);
+  data.set('email',state.email);
+  data.set('projectType',state.service);
+  data.set('message',state.details);
+  data.set('company',state.company);
+  data.set('consent','on');
+  data.set('bot-field','');
+  try{
+   const response=await fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:data.toString()});
+   if(!response.ok)throw new Error('Submission returned '+response.status);
+   button.textContent='Inquiry submitted';
+   status.textContent='Thank you. Your inquiry has been submitted to Nexora Solutions. Our team can follow up using the email you provided.';
+   addMessage('Your inquiry has been submitted successfully. Thank you for contacting Nexora Solutions.');
+  }catch(error){
+   button.disabled=false;button.textContent='Retry submission';
+   status.textContent='We could not submit your inquiry just now. Please try again. Your entered details are still here.';
   }
-  enquiry.querySelectorAll('input:not([type=hidden]):not([type=checkbox]),select,textarea').forEach(field=>field.addEventListener('blur',()=>validateField(field)));
-  enquiry.addEventListener('submit',async event=>{
-   event.preventDefault();
-   const fields=[...enquiry.querySelectorAll('input:not([type=hidden]):not([type=checkbox]),select,textarea')],valid=fields.map(validateField).every(Boolean),consent=enquiry.elements.consent,button=enquiry.querySelector('button');
-   if(!valid||!consent.checked){feedback.className='feedback fail';feedback.textContent=consent.checked?'Please correct the highlighted fields.':'Please confirm that your information may be used to respond to this enquiry.';enquiry.querySelector(':invalid')?.focus();return}
-   button.disabled=true;button.textContent='Sending…';feedback.className='feedback';feedback.textContent='';
-   try{
-    const response=await fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(new FormData(enquiry)).toString()});
-    if(!response.ok)throw new Error('Submission failed');
-    feedback.className='feedback success';feedback.textContent='Thank you for your enquiry. Your message has been submitted to Nexora Solutions. We’ll reply using the email address you provided.';
-    enquiry.reset();count.textContent='0';
-   }catch(error){
-    feedback.className='feedback fail';feedback.innerHTML='The enquiry could not be submitted. Please try again or email <a href="mailto:nexora-solutions2026@outlook.ph">nexora-solutions2026@outlook.ph</a>.';
-   }finally{button.disabled=false;button.textContent='Send enquiry →'}
-  });
  }
+ form.addEventListener('submit',e=>{
+  e.preventDefault();const value=input.value.trim();if(!value)return;
+  const prompt=prompts[state.step];
+  if(prompt.key==='email'&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)){addMessage('Please enter a valid email address so the team can follow up.');return}
+  state[prompt.key]=value;addMessage(value,'user');input.value='';state.step++;askNext();
+ });
+})();
+</script>
 
-</script></body></html>
+
+<script>
+(()=> {
+ const section=document.getElementById('demo'),search=document.getElementById('inventory-search');
+ if(!section||!search||!('IntersectionObserver' in window))return;
+ const reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+ let started=false,cancelled=false;
+ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+ async function typeSearch(){
+  if(started||cancelled||reduced)return;started=true;
+  search.setAttribute('placeholder','Try searching: Laptop');
+  await wait(650);
+  const searches=['Laptop','Keyboard','Printer','Webcam','Docking Station'];
+  for(const word of searches){
+   if(cancelled)return;
+   search.value='';
+   search.dispatchEvent(new Event('input',{bubbles:true}));
+   await wait(350);
+   for(let i=1;i<=word.length;i++){
+    if(cancelled)return;
+    search.value=word.slice(0,i);
+    search.dispatchEvent(new Event('input',{bubbles:true}));
+    await wait(145);
+   }
+   await wait(1900);
+   if(cancelled)return;
+  }
+  search.value='';
+  search.dispatchEvent(new Event('input',{bubbles:true}));
+  search.setAttribute('placeholder','Search items...');
+ }
+ ['focus','keydown','pointerdown'].forEach(evt=>search.addEventListener(evt,()=>{cancelled=true;search.setAttribute('placeholder','Search items...')},{once:true}));
+ const observer=new IntersectionObserver(entries=>{
+  if(entries.some(e=>e.isIntersecting)){observer.disconnect();typeSearch()}
+ },{threshold:.35});
+ observer.observe(section);
+})();
+</script>
+
+
+<script>
+(()=> {
+ const toggle=document.getElementById('nexora-sound-toggle');
+ if(!toggle)return;
+ const label=toggle.querySelector('.sound-toggle-label');
+ const reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+ let enabled=false,ctx=null,lastSound=0;
+ try{enabled=localStorage.getItem('nexora-interface-sound')==='on'}catch(e){}
+ function sync(){
+  toggle.setAttribute('aria-pressed',String(enabled));
+  toggle.setAttribute('aria-label',enabled?'Disable interface sound effects':'Enable interface sound effects');
+  if(label)label.textContent=enabled?'SOUND ON':'SOUND OFF';
+ }
+ function audio(){
+  const AudioCtx=window.AudioContext||window.webkitAudioContext;
+  if(!AudioCtx)return null;
+  if(!ctx)ctx=new AudioCtx();
+  if(ctx.state==='suspended')ctx.resume();
+  return ctx;
+ }
+ function tone(freq,when,duration,gain,type){
+  const c=audio();if(!c)return;
+  const osc=c.createOscillator(),amp=c.createGain();
+  osc.type=type||'sine';osc.frequency.setValueAtTime(freq,when);
+  amp.gain.setValueAtTime(.0001,when);
+  amp.gain.exponentialRampToValueAtTime(gain,when+.012);
+  amp.gain.exponentialRampToValueAtTime(.0001,when+duration);
+  osc.connect(amp);amp.connect(c.destination);osc.start(when);osc.stop(when+duration+.02);
+ }
+ function play(kind){
+  if(!enabled)return;
+  const now=performance.now();if(now-lastSound<95)return;lastSound=now;
+  const c=audio();if(!c)return;
+  const t=c.currentTime;
+  if(kind==='confirm'){
+   tone(660,t,.12,.035,'sine');tone(880,t+.09,.18,.028,'sine');
+  }else if(kind==='send'){
+   tone(420,t,.10,.025,'triangle');tone(620,t+.08,.14,.03,'sine');tone(930,t+.17,.2,.022,'sine');
+  }else if(kind==='activate'){
+   tone(330,t,.11,.026,'sine');tone(495,t+.08,.16,.028,'sine');
+  }else{
+   tone(540,t,.055,.014,'sine');
+  }
+ }
+ toggle.addEventListener('click',()=>{
+  enabled=!enabled;
+  try{localStorage.setItem('nexora-interface-sound',enabled?'on':'off')}catch(e){}
+  sync();
+  if(enabled)play('activate');
+ });
+ // Subtle sounds only on deliberate actions; no sound on page load or passive hover.
+ document.addEventListener('click',event=>{
+  const target=event.target.closest('a,button,[role="button"],.orbit-cap,.service-card,.orbit-pillar');
+  if(!target||target===toggle||target.disabled)return;
+  if(target.matches('.orbit-chat button,[type="submit"],.orbit-send'))play('send');
+  else if(target.closest('.orbit-chat'))play('confirm');
+  else play('click');
+ },true);
+ document.addEventListener('submit',()=>play('send'),true);
+ sync();
+
+ // Progressive reveal: only activate after JS initializes, so content remains visible if unsupported.
+ if(!reduced&&'IntersectionObserver' in window){
+  const selectors='.orbit-approach-head,.orbit-pillar,.solution-section .chapter-head,.inventory-shell,.orbit-inquiry-intro,.orbit-chat';
+  const nodes=[...document.querySelectorAll(selectors)];
+  nodes.forEach(node=>node.classList.add('motion-reveal'));
+  const observer=new IntersectionObserver(entries=>{
+   entries.forEach(entry=>{
+    if(entry.isIntersecting){entry.target.classList.add('is-visible');observer.unobserve(entry.target)}
+   });
+  },{threshold:.12,rootMargin:'0px 0px -35px 0px'});
+  nodes.forEach(node=>observer.observe(node));
+ }
+})();
+</script>
+
+
+<script>
+(()=> {
+ const cards=[...document.querySelectorAll('.orbit-pillars .orbit-pillar')];
+ if(!cards.length)return;
+ const reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+ cards.forEach((card,index)=>{
+  card.addEventListener('pointermove',event=>{
+   if(reduced||event.pointerType!=='mouse')return;
+   const rect=card.getBoundingClientRect();
+   const x=(event.clientX-rect.left)/rect.width;
+   const y=(event.clientY-rect.top)/rect.height;
+   card.style.setProperty('--pointer-x',(x*100)+'%');
+   card.style.setProperty('--pointer-y',(y*100)+'%');
+   card.style.setProperty('--tilt-y',((x-.5)*3.2)+'deg');
+   card.style.setProperty('--tilt-x',((.5-y)*3.2)+'deg');
+  });
+  card.addEventListener('pointerleave',()=>{
+   card.style.setProperty('--tilt-x','0deg');
+   card.style.setProperty('--tilt-y','0deg');
+   card.style.setProperty('--pointer-x','50%');
+   card.style.setProperty('--pointer-y','50%');
+  });
+  card.addEventListener('focus',()=>card.classList.add('is-active'));
+  card.addEventListener('blur',()=>card.classList.remove('is-active'));
+  card.addEventListener('click',()=>{
+   cards.forEach(other=>other.classList.toggle('is-active',other===card));
+  });
+ });
+})();
+</script>
+
+
+<script>
+(()=> {
+ const header=document.querySelector('header');
+ const toggle=document.getElementById('mobile-menu-toggle');
+ const nav=document.getElementById('site-navigation');
+ if(!header||!toggle||!nav)return;
+ const close=()=>{
+  header.classList.remove('menu-open');
+  toggle.setAttribute('aria-expanded','false');
+  toggle.setAttribute('aria-label','Open navigation menu');
+ };
+ toggle.addEventListener('click',()=>{
+  const open=!header.classList.contains('menu-open');
+  header.classList.toggle('menu-open',open);
+  toggle.setAttribute('aria-expanded',String(open));
+  toggle.setAttribute('aria-label',open?'Close navigation menu':'Open navigation menu');
+ });
+ nav.querySelectorAll('a').forEach(link=>link.addEventListener('click',close));
+ document.addEventListener('keydown',event=>{if(event.key==='Escape')close()});
+ document.addEventListener('click',event=>{
+  if(!header.contains(event.target))close();
+ });
+ window.addEventListener('resize',()=>{if(window.innerWidth>760)close()});
+})();
+</script>
+
+
+<form name="project-enquiry" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden>
+ <input type="hidden" name="form-name" value="project-enquiry">
+ <input type="hidden" name="subject" value="Nexora Solutions | New Project Enquiry">
+ <input type="text" name="name">
+ <input type="email" name="email">
+ <input type="text" name="projectType">
+ <textarea name="message"></textarea>
+ <input type="text" name="company">
+ <input type="text" name="consent">
+ <p><label>Do not fill out: <input name="bot-field"></label></p>
+</form>
+
+</body></html>
