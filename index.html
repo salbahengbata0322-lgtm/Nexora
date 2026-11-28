@@ -613,7 +613,7 @@ footer .brand img{width:78px;height:62px}
     <input id="orbitChatInput" type="text" placeholder="Type your answer to XoRa..." autocomplete="off" aria-label="Your response" disabled>
     <button type="submit" id="orbitSend" disabled aria-label="Send message">↑</button>
    </form>
-   <div class="orbit-chat-foot"><span>XoRa · INQUIRY SESSION</span><span>Your details are used to respond to your inquiry.</span></div>
+   <div class="orbit-chat-foot"><span>XoRa · AI INQUIRY SESSION</span><span>AI-assisted by Cloudflare. Inquiry sent only after your review and consent.</span></div>
   </div>
  </div>
 </section>
@@ -682,81 +682,139 @@ footer .brand img{width:78px;height:62px}
  targets.forEach(el=>observer.observe(el));
 })();
 </script>
-<script>
 (()=> {
- const body=document.getElementById('orbitChatBody'),choices=document.getElementById('orbitChoices'),form=document.getElementById('orbitChatForm'),input=document.getElementById('orbitChatInput'),send=document.getElementById('orbitSend'),progress=document.getElementById('orbitProgress');
+ const body=document.getElementById('orbitChatBody');
+ const choices=document.getElementById('orbitChoices');
+ const form=document.getElementById('orbitChatForm');
+ const input=document.getElementById('orbitChatInput');
+ const send=document.getElementById('orbitSend');
+ const progress=document.getElementById('orbitProgress');
  if(!body||!choices||!form||!input||!send)return;
- const state={step:0,service:'',details:'',name:'',email:'',company:''};
- const prompts=[
-  {key:'details',question:'Thanks. Briefly describe what you would like to improve or what problem you are trying to solve.',placeholder:'Describe your needs...',type:'text'},
-  {key:'company',question:'Got it. What company or organization are you contacting us from? You can also type “Not applicable”.',placeholder:'Company or organization...',type:'text'},
-  {key:'name',question:'Who should our team address the inquiry to?',placeholder:'Your name...',type:'text'},
-  {key:'email',question:'What email address can the Nexora team use to follow up?',placeholder:'you@company.com',type:'email'}
- ];
+
+ const messages=[];
+ const lead={service:'',requirements:'',full_name:'',email:'',company:''};
+ let busy=false,summaryOpen=false,submitted=false;
+ const emailPattern=/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
+
  function addMessage(text,who='assistant'){
   const row=document.createElement('div');row.className='orbit-message '+who;
-  if(who==='assistant'){const av=document.createElement('span');av.className='orbit-message-avatar';av.innerHTML='<span class="mini-orbit"></span>';row.appendChild(av)}
+  if(who==='assistant'){
+   const av=document.createElement('span');av.className='orbit-message-avatar';
+   av.innerHTML='<span class="mini-orbit"></span>';row.appendChild(av);
+  }
   const bubble=document.createElement('div');bubble.className='orbit-bubble';
-  if(who==='assistant'){const tag=document.createElement('small');tag.textContent='XoRa';bubble.appendChild(tag)}
-  const p=document.createElement('p');p.textContent=text;bubble.appendChild(p);row.appendChild(bubble);body.appendChild(row);body.scrollTop=body.scrollHeight;
+  if(who==='assistant'){const tag=document.createElement('small');tag.textContent='XoRa';bubble.appendChild(tag);}
+  const p=document.createElement('p');p.textContent=text;bubble.appendChild(p);
+  row.appendChild(bubble);body.appendChild(row);body.scrollTop=body.scrollHeight;
  }
- function setProgress(){progress.style.width=(Math.min(100,8+state.step*19))+'%'}
- function askNext(){
-  choices.innerHTML='';
-  if(state.step<prompts.length){
-   const p=prompts[state.step];addMessage(p.question);input.disabled=false;send.disabled=false;input.type=p.type;input.placeholder=p.placeholder;input.focus();
-  }else showSummary();
-  setProgress();
+ function setProgress(){
+  const complete=[lead.service,lead.requirements,lead.full_name,lead.email].filter(Boolean).length;
+  if(progress)progress.style.width=(complete/4*100)+'%';
  }
- function choose(value){state.service=value;addMessage(value,'user');state.step=0;askNext()}
- choices.addEventListener('click',e=>{const btn=e.target.closest('[data-value]');if(btn&&!state.service)choose(btn.dataset.value)});
+ function syncControls(){
+  input.disabled=busy||summaryOpen||submitted;
+  send.disabled=busy||summaryOpen||submitted||!input.value.trim();
+  choices.querySelectorAll('button').forEach(button=>button.disabled=busy||summaryOpen||submitted);
+ }
+ function mergeLead(next){
+  if(!next||typeof next!=='object')return;
+  for(const key of Object.keys(lead)){
+   if(typeof next[key]==='string' && next[key].trim())lead[key]=next[key].trim().slice(0,key==='requirements'?2400:254);
+  }
+  if(lead.email&&!emailPattern.test(lead.email))lead.email='';
+ }
+ function appendTyping(){
+  const row=document.createElement('div');row.className='orbit-message assistant';row.id='xora-typing';
+  const av=document.createElement('span');av.className='orbit-message-avatar';av.innerHTML='<span class="mini-orbit"></span>';
+  const bubble=document.createElement('div');bubble.className='orbit-bubble';const tag=document.createElement('small');tag.textContent='XoRa';
+  const p=document.createElement('p');p.textContent='Thinking through your request…';bubble.append(tag,p);row.append(av,bubble);body.appendChild(row);body.scrollTop=body.scrollHeight;
+ }
+ async function askXoRa(text){
+  if(busy||summaryOpen||submitted)return;
+  const value=String(text||'').trim();if(!value)return;
+  busy=true;choices.innerHTML='';addMessage(value,'user');
+  messages.push({role:'user',content:value});
+  while(messages.length>8)messages.shift();
+  input.value='';syncControls();appendTyping();
+  try{
+   const response=await fetch('/.netlify/functions/xora',{
+    method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({messages})
+   });
+   const result=await response.json();
+   if(!response.ok)throw new Error(result.error||'XoRa is temporarily unavailable.');
+   const typing=document.getElementById('xora-typing');if(typing)typing.remove();
+   mergeLead(result.lead);
+   const reply=typeof result.reply==='string'?result.reply:'I can help you prepare an inquiry. What would you like to improve?';
+   addMessage(reply);
+   messages.push({role:'assistant',content:reply});
+   while(messages.length>8)messages.shift();
+   setProgress();
+   const ready=!!result.ready_for_review&&!!lead.service&&!!lead.requirements&&!!lead.full_name&&emailPattern.test(lead.email);
+   if(ready)showSummary();
+  }catch(error){
+   const typing=document.getElementById('xora-typing');if(typing)typing.remove();
+   addMessage(error instanceof Error?error.message:'XoRa is temporarily unavailable. Please try again.');
+  }finally{
+   busy=false;syncControls();input.focus();
+  }
+ }
  function showSummary(){
-  input.disabled=true;send.disabled=true;input.placeholder='Inquiry details collected';setProgress();
+  if(summaryOpen||submitted)return;
+  summaryOpen=true;choices.innerHTML='';syncControls();
   const box=document.createElement('div');box.className='orbit-summary';
-  const title=document.createElement('strong');title.textContent='INQUIRY SUMMARY';box.appendChild(title);
+  const title=document.createElement('strong');title.textContent='REVIEW YOUR INQUIRY';box.appendChild(title);
   const ul=document.createElement('ul');
-  [['Service',state.service],['Request',state.details],['Organization',state.company],['Name',state.name],['Email',state.email]].forEach(([k,v])=>{const li=document.createElement('li');li.textContent=k+': '+v;ul.appendChild(li)});
+  const rows=[['Service',lead.service],['Requirements',lead.requirements],['Company',lead.company||'Not provided'],['Name',lead.full_name],['Email',lead.email]];
+  rows.forEach(([label,value])=>{const li=document.createElement('li');li.textContent=label+': '+value;ul.appendChild(li);});
   box.appendChild(ul);
   const consent=document.createElement('label');consent.className='xora-consent';
   const check=document.createElement('input');check.type='checkbox';check.id='xoraConsent';
-  const copy=document.createElement('span');copy.textContent='I agree that Nexora Solutions may use these details to respond to my inquiry.';
+  const copy=document.createElement('span');copy.textContent='I agree that Nexora Solutions may use these details to respond to my inquiry. I understand that this is a request for follow-up, not a confirmed project or quotation.';
   consent.append(check,copy);box.appendChild(consent);
-  const submit=document.createElement('button');submit.type='button';submit.className='xora-submit';submit.textContent='Submit inquiry';
+  const submit=document.createElement('button');submit.type='button';submit.className='xora-submit';submit.textContent='Submit inquiry';submit.disabled=true;
+  check.addEventListener('change',()=>{submit.disabled=!check.checked;});
   submit.addEventListener('click',()=>submitInquiry(submit,check,box));box.appendChild(submit);
+  const edit=document.createElement('button');edit.type='button';edit.className='xora-edit';edit.textContent='Continue conversation';
+  edit.addEventListener('click',()=>{summaryOpen=false;box.remove();syncControls();addMessage('No problem. Tell me what you would like to change or add.');});
+  box.appendChild(edit);
   const status=document.createElement('p');status.className='xora-submit-status';status.setAttribute('role','status');status.setAttribute('aria-live','polite');box.appendChild(status);
   body.appendChild(box);body.scrollTop=body.scrollHeight;
-  addMessage('Please review your details. When you are ready, confirm the consent checkbox and submit your inquiry to the Nexora team.');
+  input.placeholder='Review your inquiry above…';
  }
  async function submitInquiry(button,consent,box){
   const status=box.querySelector('.xora-submit-status');
-  if(!consent.checked){status.textContent='Please confirm your consent before submitting.';consent.focus();return}
-  button.disabled=true;button.textContent='Sending inquiry…';status.textContent='Securely sending your inquiry…';
+  if(!consent.checked){status.textContent='Please confirm your consent before submitting.';return;}
+  if(!emailPattern.test(lead.email)||!lead.full_name||!lead.service||!lead.requirements){status.textContent='Some required details are missing. Continue the conversation to complete them.';return;}
+  button.disabled=true;button.textContent='Sending inquiry…';status.textContent='Submitting your inquiry securely…';
   const data=new URLSearchParams();
   data.set('form-name','project-enquiry');
-  data.set('name',state.name);
-  data.set('email',state.email);
-  data.set('projectType',state.service);
-  data.set('message',state.details);
-  data.set('company',state.company);
+  data.set('name',lead.full_name);
+  data.set('email',lead.email);
+  data.set('projectType',lead.service);
+  data.set('message',lead.requirements);
+  data.set('company',lead.company);
   data.set('consent','on');
   data.set('bot-field','');
   try{
    const response=await fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:data.toString()});
    if(!response.ok)throw new Error('Submission returned '+response.status);
-   button.textContent='Inquiry submitted';
-   status.textContent='Thank you. Your inquiry has been submitted to Nexora Solutions. Our team can follow up using the email you provided.';
-   addMessage('Your inquiry has been submitted successfully. Thank you for contacting Nexora Solutions.');
+   submitted=true;button.textContent='Inquiry submitted';status.textContent='Thank you. Your inquiry has been submitted to Nexora Solutions. The team can follow up using the email you provided.';
+   addMessage('Your inquiry submission was accepted by the website. The Nexora team can review and follow up; this is not a confirmed project or quotation.');
+   syncControls();
   }catch(error){
    button.disabled=false;button.textContent='Retry submission';
-   status.textContent='We could not submit your inquiry just now. Please try again. Your entered details are still here.';
+   status.textContent='We could not submit your inquiry just now. Please try again. Your summary is still here.';
   }
  }
- form.addEventListener('submit',e=>{
-  e.preventDefault();const value=input.value.trim();if(!value)return;
-  const prompt=prompts[state.step];
-  if(prompt.key==='email'&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)){addMessage('Please enter a valid email address so the team can follow up.');return}
-  state[prompt.key]=value;addMessage(value,'user');input.value='';state.step++;askNext();
+ form.addEventListener('submit',event=>{event.preventDefault();if(!busy)void askXoRa(input.value);});
+ choices.addEventListener('click',event=>{
+  const button=event.target.closest('[data-value]');if(!button||busy||summaryOpen||submitted)return;
+  void askXoRa(button.dataset.value);
  });
+ input.addEventListener('input',syncControls);
+ addMessage('Hello! I’m XoRa, Nexora’s AI business companion. Tell me what you are trying to improve, and I’ll help you explore a practical next step. I can prepare an inquiry for your review when you are ready.');
+ input.disabled=false;send.disabled=true;input.placeholder='Ask XoRa about your business needs…';
 })();
 </script>
 
