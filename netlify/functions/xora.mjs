@@ -145,7 +145,7 @@ export const handler = async (event) => {
   }
 
   const headers = event.headers || {};
-  const clientIp = headers["x-nf-client-connection-ip"] || headers["cf-connecting-ip"] || headers["x-real-ip"] || (headers["x-forwarded-for"] || "").split(",")[0].trim();
+  const clientIp = headers["x-nf-client-connection-ip"] || headers["cf-connecting-ip"] || headers["x-real-ip"];
   if (!clientIp) return response(503, { error: "XoRa is temporarily unavailable from this connection. Please try again later." });
   if (!allowedForIp(clientIp, rateSecret)) return response(429, { error: "You've reached the XoRa message limit for this hour. Please try again later." });
 
@@ -200,6 +200,16 @@ export const handler = async (event) => {
       company: clean(lead.company, 160)
     };
     const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedLead.email);
+    const approvedServices = new Set([
+      "IT Support & Troubleshooting",
+      "Business Workflow Automation",
+      "Custom Business Tools",
+      "Reporting & Dashboards",
+      "Microsoft 365 Productivity",
+      "Lightweight Business Applications",
+      "Other / needs assessment"
+    ]);
+    if (!approvedServices.has(normalizedLead.service)) normalizedLead.service = "";
     // Contact fields must appear literally in visitor-authored messages; never
     // accept a model-invented name, email, or company from an assistant turn.
     const visitorText = messages.filter((item) => item.role === "user").map((item) => item.content.toLowerCase()).join("\n");
