@@ -200,7 +200,15 @@ export const handler = async (event) => {
       company: clean(lead.company, 160)
     };
     const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedLead.email);
-    const complete = !!(normalizedLead.service && normalizedLead.requirements && normalizedLead.full_name && emailValid);
+    // Contact fields must appear literally in visitor-authored messages; never
+    // accept a model-invented name, email, or company from an assistant turn.
+    const visitorText = messages.filter((item) => item.role === "user").map((item) => item.content.toLowerCase()).join("\n");
+    const appearsInVisitorText = (value) => !!value && visitorText.includes(value.toLowerCase());
+    if (!appearsInVisitorText(normalizedLead.full_name)) normalizedLead.full_name = "";
+    if (!appearsInVisitorText(normalizedLead.email)) normalizedLead.email = "";
+    if (normalizedLead.company && !appearsInVisitorText(normalizedLead.company)) normalizedLead.company = "";
+    const verifiedEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedLead.email);
+    const complete = !!(normalizedLead.service && normalizedLead.requirements && normalizedLead.full_name && verifiedEmail);
     const reply = clean(parsed.reply, 1800);
     if (!reply) return response(502, { error: "XoRa couldn't prepare a response. Please try again." });
 
